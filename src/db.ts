@@ -1,5 +1,7 @@
 import { connect } from "mongoose";
-require("dotenv").config();
+import { config } from "dotenv";
+
+config();
 const { MONGODB_URI } = process.env;
 
 (async () => {

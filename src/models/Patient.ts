@@ -23,4 +23,4 @@ const patientSchema = new Schema<Patient>({
   medicalHistory: { type: [String], default: [] },
 });
 
-module.exports = model("Patient", patientSchema);
+export default model("Patient", patientSchema);

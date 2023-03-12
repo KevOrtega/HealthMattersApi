@@ -26,4 +26,4 @@ const DateSchema = new Schema<Date>({
 
 DateSchema.index({ id: 1 });
 
-module.exports = model("Date", DateSchema);
+export default model("Date", DateSchema);

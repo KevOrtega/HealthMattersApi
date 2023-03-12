@@ -22,4 +22,4 @@ ServiceSchema.index({ name: 1 }); //En Mongoose, cuando definimos un índice en 
 
 // En este caso, al especificar 1, estamos indicando que queremos un índice ascendente para el campo name. Esto significa que los documentos se ordenarán en orden ascendente según el valor de este campo cuando se realice una consulta que use este índice.
 
-module.exports = model("Service", ServiceSchema);
+export default model("Service", ServiceSchema);

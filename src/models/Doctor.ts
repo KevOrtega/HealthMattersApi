@@ -24,8 +24,4 @@ const DoctorSchema = new Schema<Doctor>({
 
 DoctorSchema.index({ id: 1 });
 
-module.exports = model("Doctor", DoctorSchema);
-
-// const DoctorModel = model<Doctor>('Doctor', DoctorSchema);
-
-// export { DoctorModel };
+export default model("Doctor", DoctorSchema);
