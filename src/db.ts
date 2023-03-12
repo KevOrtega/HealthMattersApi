@@ -1,9 +1,9 @@
 const { MongoClient } = require("mongodb");
 // const mongoose = require("mongoose");
 require("dotenv").config();
-const { MONGODB_UR } = process.env;
+const { MONGODB_URI } = process.env;
 
-const client = new MongoClient(MONGODB_UR);
+const client = new MongoClient(MONGODB_URI);
 
 export async function connectToDatabase() {
   try {

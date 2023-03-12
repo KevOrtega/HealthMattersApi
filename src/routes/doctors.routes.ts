@@ -7,12 +7,12 @@ router.get("/doctors", (req, res) => {
 });
 
 router.post("/doctors", (req, res) => {
-  const user = DoctorSchema(req.body);
+  const user = new DoctorSchema(req.body);
   user
     .save()
     .then((data: any) => res.json(data))
     .catch((error: Error) =>
-      res.json({
+      res.status(300).json({
         message: error,
       })
     );
