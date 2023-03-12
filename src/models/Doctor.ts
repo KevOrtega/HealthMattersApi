@@ -1,5 +1,4 @@
-import { Document, Schema, model } from 'mongoose';
-import mongoose from 'mongoose';
+import { Document, Schema, model } from "mongoose";
 
 interface Doctor extends Document {
   id: string;
@@ -8,7 +7,7 @@ interface Doctor extends Document {
   mail: string;
   password: string;
   specialty: string;
-  registration: string
+  registration: string;
   phoneNumber: string;
 }
 
@@ -25,7 +24,7 @@ const DoctorSchema = new Schema<Doctor>({
 
 DoctorSchema.index({ id: 1 });
 
-module.exports = mongoose.model('Doctor', DoctorSchema);
+module.exports = model("Doctor", DoctorSchema);
 
 // const DoctorModel = model<Doctor>('Doctor', DoctorSchema);
 

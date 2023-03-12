@@ -1,10 +1,9 @@
-import { Schema, model, Document } from 'mongoose';
-import mongoose from 'mongoose';
+import { Schema, model, Document } from "mongoose";
 
 interface Patient extends Document {
-    id : string
+  id: string;
   name: string;
-  lastname : string; 
+  lastname: string;
   age: number;
   gender: string;
   email: string;
@@ -14,7 +13,7 @@ interface Patient extends Document {
 }
 
 const patientSchema = new Schema<Patient>({
-    id: { type: String, required: true, unique: true },
+  id: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   age: { type: Number, required: true },
   gender: { type: String, required: true },
@@ -24,4 +23,4 @@ const patientSchema = new Schema<Patient>({
   medicalHistory: { type: [String], default: [] },
 });
 
-module.exports = mongoose.model('Patient',patientSchema );
+module.exports = model("Patient", patientSchema);
