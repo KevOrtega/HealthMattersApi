@@ -1,15 +1,12 @@
-const { MongoClient } = require("mongodb");
-// const mongoose = require("mongoose");
+import { connect } from "mongoose";
 require("dotenv").config();
 const { MONGODB_URI } = process.env;
 
-const client = new MongoClient(MONGODB_URI);
-
-export async function connectToDatabase() {
+(async () => {
   try {
-    await client.connect();
-    console.log("Conexión a la base de datos exitosa!");
+    const db = await connect(MONGODB_URI || "");
+    console.log(`db connected to ${db.connection.name}`);
   } catch (err) {
     console.error(err);
   }
-}
+})();
