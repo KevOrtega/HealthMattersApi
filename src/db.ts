@@ -1,15 +1,6 @@
-const { MongoClient } = require("mongodb");
-// const mongoose = require("mongoose");
-require("dotenv").config();
-const { MONGODB_URI } = process.env;
+import mongoose from 'mongoose';
 
-const client = new MongoClient(MONGODB_URI);
 
-export async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log("Conexión a la base de datos exitosa!");
-  } catch (err) {
-    console.error(err);
-  }
-}
+mongoose.connect('mongodb+srv://healthmatters:healthmatters@healthmatters.rabrrsd.mongodb.net/healthmatters')
+  .then(() => console.log('Connected to MongoDB Atlas'))
+  .catch(error => console.error(error));
