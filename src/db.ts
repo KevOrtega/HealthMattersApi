@@ -1,6 +1,16 @@
-import mongoose from 'mongoose';
+import { connect } from "mongoose";
+import { config } from "dotenv";
 
+config();
+const { MONGODB_URI } = process.env;
 
-mongoose.connect('mongodb+srv://healthmatters:healthmatters@healthmatters.rabrrsd.mongodb.net/healthmatters')
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(error => console.error(error));
+const client = new MongoClient(MONGODB_URI);
+
+export async function connectToDatabase() {
+  try {
+    await client.connect();
+    console.log("Conexión a la base de datos exitosa!");
+  } catch (err) {
+    console.error(err);
+  }
+}
