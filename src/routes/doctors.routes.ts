@@ -3,12 +3,11 @@ import Doctor from "../models/Doctor";
 
 const router = Router();
 
-router.get("/", (req, res) => {
-	res.send("Doctors");
+router.get("/", async (req, res) => {
+	res.send(await Doctor.find());
 });
 
 router.post("/", (req, res) => {
-	console.log(req.body);
 	const user = new Doctor(req.body);
 	user
 		.save()

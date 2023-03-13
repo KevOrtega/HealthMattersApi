@@ -1,7 +1,7 @@
 import { Document, Schema, model } from "mongoose";
 
 interface Doctor extends Document {
-	id: string;
+	// id: number;
 	name: string;
 	lastname: string;
 	mail: string;
@@ -12,7 +12,7 @@ interface Doctor extends Document {
 }
 
 const DoctorSchema = new Schema<Doctor>({
-	id: { type: String, required: true, unique: true },
+	// id: { type: Number, required: true, unique: true },
 	name: { type: String, required: true },
 	lastname: { type: String, required: true },
 	mail: { type: String, required: true, unique: true },
@@ -22,6 +22,6 @@ const DoctorSchema = new Schema<Doctor>({
 	phoneNumber: { type: String, required: true },
 });
 
-DoctorSchema.index({ id: 1 });
+// DoctorSchema.index({ id: 1 });
 
 export default model("Doctor", DoctorSchema);
