@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getDoctors, postDoctors } from "../controllers/item";
+import { getDoctor, postDoctors } from "../controllers/item";
 
 const router = Router();
 
-router.get("/", getDoctors);
+router.get("/", getDoctor);
 router.post("/", postDoctors);
 
 export default router;

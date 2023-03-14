@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { inserItem, getDrs } from "../services/item";
+import DoctorModel from "../models/item";
 
 const getDoctor = (req:Request, res:Response) => {
     try {
@@ -9,23 +9,16 @@ const getDoctor = (req:Request, res:Response) => {
     }
 }
 
-const getDoctors= async (req:Request, res:Response) => {
-    try {
-        const response = getDrs()
-        res.send(response)
-    } catch (error) {
-        console.log('ERROR');
-        
-    }
-}
 
-const postDoctors = async ({body}:Request, res:Response) => {
+const postDoctors = async (req:Request, res:Response) => {
     try {
-        const response = await inserItem(body)
-        res.send(response)
+        const { name, lastname, specialty, phoneNumber, registration, email} = req.body;
+        const newDoctor = new DoctorModel({ name, lastname, specialty, phoneNumber, registration, email });
+        const savedDoctor = await newDoctor.save();
+        res.status(201).json({ doctor: savedDoctor });
     } catch (error) {
         console.log('ERROR');
     }
 }
 
-export {getDoctor, getDoctors, postDoctors}
+export {getDoctor, postDoctors}

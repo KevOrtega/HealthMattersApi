@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { insertPatient, getPatients } from "../services/patients";
 
 const getPatient = (req: Request, res: Response) => {
 	try {
@@ -11,8 +10,8 @@ const getPatient = (req: Request, res: Response) => {
 
 const getPatientList = async (req: Request, res: Response) => {
 	try {
-		const response = await getPatients();
-		res.json(response);
+		const response =  ""
+		res.json();
 	} catch (error) {
 		console.log("ERROR");
 	}
@@ -20,7 +19,7 @@ const getPatientList = async (req: Request, res: Response) => {
 
 const postPatient = async ({ body }: Request, res: Response) => {
 	try {
-		const response = await insertPatient(body);
+		const response = ""
 		res.json(response);
 	} catch (error) {
 		console.log("ERROR");
