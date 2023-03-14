@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getDoctors, postDoctors } from "../controllers/item";
+import { getDoctor, postDoctors } from "../controllers/item";
 
 const router = Router()
 
-router.get('/doctors', getDoctors)
+// router.get('/doctors', getDoctors)
+router.get('/doctors/:id', getDoctor)
 router.post('/doctors', postDoctors)
 
 export {router}
