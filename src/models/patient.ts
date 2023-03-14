@@ -1,7 +1,7 @@
 import { Schema, Types, Model, model } from "mongoose";
-import { Doctor } from "../interfaces/doctor.interface";
+import { Patient } from "../interfaces/patient.interface";
 
-const ItemSchema = new Schema<Doctor>(
+const PatientSchema = new Schema<Patient>(
 	{
 		name: {
 			type: String,
@@ -12,12 +12,10 @@ const ItemSchema = new Schema<Doctor>(
 		email: {
 			type: String,
 		},
-		specialty: {
+		address: {
 			type: String,
 		},
-		registration: {
-			type: String,
-		},
+
 		phoneNumber: {
 			type: Number,
 		},
@@ -28,5 +26,5 @@ const ItemSchema = new Schema<Doctor>(
 	}
 );
 
-const ItemModel = model("Items", ItemSchema);
-export default ItemModel;
+const PatientModel = model("Paciente", PatientSchema);
+export default PatientModel;
