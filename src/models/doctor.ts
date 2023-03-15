@@ -4,7 +4,7 @@ export interface Doctor {
     name: string;
     lastname: string;
     email: string;
-    specialty: string;
+    specialty: [string];
     registration: string;
     phoneNumber: number;
 }
@@ -18,7 +18,7 @@ const DoctorSchema = new Schema<Doctor>(
             type: String
         },
         specialty: {
-            type: String
+            type: [String]
         },
         registration: {
             type: String
