@@ -3,10 +3,10 @@ import { Schema, Types, Model, model } from "mongoose";
 export interface Services {
 	title: string;
 	description: string;
-	doctor: [string]
 	price: number;
 	availability: string;
 	time: string;
+    patient: Types.ObjectId[] | string[];
 }
 
 const ServiceSchema = new Schema<Services>(
@@ -17,9 +17,7 @@ const ServiceSchema = new Schema<Services>(
         description: {
             type: String,
         },
-        doctor: {
-            type: [String],
-        },
+        
         price: {
             type: Number,
         },
@@ -28,7 +26,10 @@ const ServiceSchema = new Schema<Services>(
 		},
         time: {
             type: String
-        }
+        },
+        patient: [{
+            type: Schema.Types.ObjectId, ref: "Patient"
+        }]
     },
 	{
 		timestamps: true,

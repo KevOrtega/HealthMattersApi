@@ -1,12 +1,14 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
+import axios from "axios"
 
 const getDoctors = async (req: Request, res: Response) => {
 	try {
+		const doctors = await axios.get('http://localhost:3001/doctors')
 		const allDoctors = await DoctorModel.find({});
 		res.send(allDoctors);
 	} catch (error) {
-		console.log("ERROR");
+		res.status(404).send({ message: error });
 	}
 };
 
@@ -17,7 +19,7 @@ const postDoctors = async (req: Request, res: Response) => {
 		const savedDoctor = await newDoctor.save();
 		res.status(201).json({ doctor: savedDoctor });
 	} catch (error) {
-		console.log("ERROR");
+		res.status(404).send({ message: error });
 	}
 };
 
@@ -27,7 +29,7 @@ const getDoctorsDetail = async (req: Request, res: Response) => {
 		const doctorId = await DoctorModel.findOne({ _id: id });
 		res.send(doctorId);
 	} catch (error) {
-		console.log("Error");
+		res.status(404).send({ message: error });
 	}
 };
 

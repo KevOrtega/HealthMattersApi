@@ -1,30 +1,28 @@
-import { Schema, Types, Model, model } from "mongoose";
+import mongoose, { Schema, Model, model, Types } from "mongoose";
 
-export interface date{
-    date: string;
-    time: string;
-    doctor: [string]
-    patient: [string]
-    service: string
+export interface Date{
+    date: Date;
+    doctor: Types.ObjectId | string;
+    patient: Types.ObjectId | string;
+    
 }
 
-const DateSchema = new Schema<date>(
+const DateSchema = new Schema<Date>(
     {
         date: {
-            type: String,
-        },
-        time: {
-            type: String,
+            type: Date,
+            required: true,
         },
         doctor: {
-          type: [String]
+         type: Schema.Types.ObjectId,
+          ref: "Doctor",
+          required: true,
         },
-        patient: {
-            type: [String],
-        },
-        service: {
-            type: String
-        }
+        patient: [{
+            type: Schema.Types.ObjectId,
+            ref: "Patient",
+            required: true
+        }]
     }
 )
 

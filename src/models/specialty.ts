@@ -1,18 +1,20 @@
-import { Schema, Types, Model, model } from "mongoose";
+import mongoose, { Schema, Types, Model, model } from "mongoose";
+import { Doctor } from "./doctor";
 
-export interface specialty {
+export interface Specialty {
 	name: string;
-	doctor: [string];
+	doctor: Types.ObjectId[] | string[];
 }
 
-const SpecialtySchema = new Schema<specialty>(
+const SpecialtySchema = new Schema<Specialty>(
 	{
         name: {
             type: String,
+            required: true,
         },
-        doctor: {
-            type: [String],
-        },
+        doctor: [{
+            type: Schema.Types.ObjectId, ref: 'Doctor'
+        }],
     },
 	{
 		timestamps: true,
