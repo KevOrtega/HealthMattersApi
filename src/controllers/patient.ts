@@ -44,4 +44,6 @@ const assignPatient = async (req: Request, res: Response) => {
 	}
 }
 
+
+
 export { postPatient, getPatient, getPatientList, assignPatient };
