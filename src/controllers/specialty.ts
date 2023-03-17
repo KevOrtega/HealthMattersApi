@@ -1,17 +1,12 @@
 import { Request, Response } from "express";
-import axios from "axios";
+import DoctorModel from "../models/doctor";
 import SpecialtyModel from "../models/specialty";
-
+const data = require('../../src/data.js')
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-        const allSpecilties = await axios.get('http://localhost:3001/specialties')
-		const specialities = allSpecilties.data
-        for (const specialty of specialities) {
-			const newSpecialty = new SpecialtyModel(specialty);
-			await newSpecialty.save();
-		  }
-		  res.send(specialities);          
+		const specialities = await SpecialtyModel.find().populate('doctors', 'name');
+		res.json(specialities)
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -19,17 +14,37 @@ const getSpecialty = async (req: Request, res: Response) => {
 
 const postSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await axios.get('http://localhost:3001/specialties')
-		const arraySpecialities = specialities.data
-		const allSpecilties = arraySpecialities.save()
-		res.status(200).send(allSpecilties)
-		
-		console.log(arraySpecialities);
-		
+	//  const specialities = await data
+	 const {name} = req.body
+	 const postSpecialities = new SpecialtyModel({ name })
+	 const saveSpecialities = await postSpecialities.save()
+	 res.status(200).send(saveSpecialities)
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+}
+
+
+const detailSpecialty = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+		const specialtyId = await SpecialtyModel.findOne({ _id: id });
+		res.send(specialtyId);
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
+const assignSpecialty = async (req: Request, res: Response) => {
+	try {
+		const {_id} = req.params;
+		const {specialties} = req.body
+		const updated = await DoctorModel.findByIdAndUpdate(_id, {$push: {specialties: specialties}})
+		res.send(`${updated?.name}`)
 	} catch (error) {
 		
 	}
 }
 
-export { getSpecialty, postSpecialty };
+export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty };
 

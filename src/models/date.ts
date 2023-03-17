@@ -1,9 +1,9 @@
-import mongoose, { Schema, Model, model, Types } from "mongoose";
+import { Schema, model, Types } from "mongoose";
 
 export interface Date{
     date: Date;
-    doctor: Types.ObjectId | string;
-    patient: Types.ObjectId | string;
+    doctors: Types.ObjectId | string;
+    patients: Types.ObjectId | string;
     
 }
 
@@ -13,18 +13,18 @@ const DateSchema = new Schema<Date>(
             type: Date,
             required: true,
         },
-        doctor: {
+        doctors: {
          type: Schema.Types.ObjectId,
-          ref: "Doctor",
+          ref: "doctors",
           required: true,
         },
-        patient: [{
+        patients: [{
             type: Schema.Types.ObjectId,
-            ref: "Patient",
+            ref: "patients",
             required: true
         }]
     }
 )
 
-const DateModel = model('Date', DateSchema)
+const DateModel = model('date', DateSchema)
 export default DateModel

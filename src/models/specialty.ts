@@ -1,9 +1,8 @@
-import mongoose, { Schema, Types, Model, model } from "mongoose";
-import { Doctor } from "./doctor";
+import { Schema, model, Types } from "mongoose";
 
 export interface Specialty {
 	name: string;
-	doctor: Types.ObjectId[] | string[];
+	doctors: Types.ObjectId[] | string[];
 }
 
 const SpecialtySchema = new Schema<Specialty>(
@@ -12,15 +11,11 @@ const SpecialtySchema = new Schema<Specialty>(
             type: String,
             required: true,
         },
-        doctor: [{
-            type: Schema.Types.ObjectId, ref: 'Doctor'
+        doctors: [{
+            type: Schema.Types.ObjectId, ref: 'doctors'
         }],
     },
-	{
-		timestamps: true,
-		versionKey: false,
-	}
 );
 
-const SpecialtyModel = model('Specialty', SpecialtySchema)
+const SpecialtyModel = model('specialties', SpecialtySchema)
 export default SpecialtyModel

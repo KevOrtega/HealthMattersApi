@@ -1,6 +1,5 @@
 import mongoose, { Schema, Types, Model, model } from "mongoose";
-import { Patient } from "./patient";
-import { Specialty } from "./specialty";
+
 
 export interface Doctor {
     name: string;
@@ -22,10 +21,10 @@ const DoctorSchema = new Schema<Doctor>(
             type: String
         },
         specialties:[{
-            type: mongoose.Schema.Types.ObjectId, ref: 'Specialty',
+            type: mongoose.Schema.Types.ObjectId, ref: 'specialties',
         }],
         patients: [{
-            type: mongoose.Schema.Types.ObjectId, ref: "Patient"
+            type: mongoose.Schema.Types.ObjectId, ref: "patients"
         }],
         registration: {
             type: String
@@ -36,13 +35,9 @@ const DoctorSchema = new Schema<Doctor>(
         email: {
             type: String
         },
-        date: [{type: Schema.Types.ObjectId, ref: "Date"}]
+        date: [{type: Schema.Types.ObjectId, ref: "date"}]
     },
-	{
-		timestamps: true,
-		versionKey: false,
-	}
 );
 
-const DoctorModel = model('Doctors', DoctorSchema)
+const DoctorModel = model('doctors', DoctorSchema)
 export default DoctorModel

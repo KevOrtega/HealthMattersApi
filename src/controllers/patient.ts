@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
 import PatientModel from "../models/patient";
+import ServiceModel from "../models/services";
 
 const getPatientList = async (req: Request, res: Response) => {
 	try {
 		const allPatients = await PatientModel.find({});
 		res.send(allPatients);
 	} catch (error) {
-		res.send(404).send({ message: error });
+		res.status(404).json({ message: error });
 	}
 };
 
@@ -17,7 +18,7 @@ const postPatient = async (req: Request, res: Response) => {
 		const savedPatient = await newPatient.save();
 		res.status(201).json({ patient: savedPatient });
 	} catch (error) {
-		res.send(404).send({ message: error });
+		res.status(404).json({ message: error });
 	}
 };
 
@@ -28,8 +29,19 @@ const getPatient = async (req: Request, res: Response) => {
 		const patienId = await PatientModel.findOne({ _id: id });
 		res.send(patienId);
 	} catch (error) {
-		res.send(404).send({ message: error });
+		res.status(404).json({ message: error });
 	}
 };
 
-export { postPatient, getPatient, getPatientList };
+const assignPatient = async (req: Request, res: Response) => {
+	try {
+		const {_id} = req.params;
+		const {services} = req.body;
+		const updated = await ServiceModel.findByIdAndUpdate(_id,  {$push: { services: services}})
+		res.status(200).send(`${updated?.name}`)
+	} catch (error) {
+		res.status(404).json({ message: error });
+	}
+}
+
+export { postPatient, getPatient, getPatientList, assignPatient };

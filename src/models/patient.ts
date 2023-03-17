@@ -8,7 +8,7 @@ export interface Patient {
 	address: string;
 	phoneNumber: number;
 	date: Types.ObjectId[] | Date[];
-	doctor: Types.ObjectId | string;
+	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
 }
 
@@ -36,17 +36,17 @@ const PatientSchema = new Schema<Patient>(
 			required: true
 		},
 		date: [{
-			type: Schema.Types.ObjectId, ref: 'Date'
+			type: Schema.Types.ObjectId, ref: 'date'
 		}],
-		doctor: [{
-			type: Schema.Types.ObjectId, ref: 'Doctor'
+		doctors: [{
+			type: Schema.Types.ObjectId, ref: 'doctors'
+		}],
+		services: [{
+			type: Schema.Types.ObjectId, ref: 'services'
 		}]
 	},
-	{
-		timestamps: true,
-		versionKey: false,
-	}
+	
 );
 
-const PatientModel = model("Patient", PatientSchema);
+const PatientModel = model("patients", PatientSchema);
 export default PatientModel;

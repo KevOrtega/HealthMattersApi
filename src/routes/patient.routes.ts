@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { getPatient, postPatient, getPatientList } from "../controllers/patient";
+import { getPatient, postPatient, getPatientList, assignPatient } from "../controllers/patient";
 
 const router = Router()
 
-router.get("/", getPatient)
-router.get("/:id", getPatientList)
+router.get("/", getPatientList)
+router.put("/assignPatient/:id", assignPatient);
+router.get("/:id", getPatient)
 router.post("/", postPatient)
 
 export default router
