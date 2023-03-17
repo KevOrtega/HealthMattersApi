@@ -5,7 +5,7 @@ export interface Services {
 	description: string;
 	price: number;
 	availability: string;
-    patients: Types.ObjectId[] | string[];
+    patients: Types.ObjectId | string;
 }
 
 const ServiceSchema = new Schema<Services>(

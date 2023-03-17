@@ -4,8 +4,8 @@ import { getDoctors, postDoctors, getDoctorsDetail, assignDoctor} from "../contr
 const router = Router();
 
 router.get("/", getDoctors);
-router.put("/assignDoctor/:id", assignDoctor);
-router.get("/:id", getDoctorsDetail);
+router.put("/assignDoctor/:_id", assignDoctor);
+router.get("/:_id", getDoctorsDetail);
 router.post("/", postDoctors);
 
 export default router;

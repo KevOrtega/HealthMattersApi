@@ -4,7 +4,7 @@ import { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty } from ".
 const router = Router();
 
 router.get("/", getSpecialty);
-router.get("/:id", detailSpecialty);
-router.put("/assignSpecialty/:id", assignSpecialty);
+router.get("/:_id", detailSpecialty);
+router.put("/assignSpecialty/:_id", assignSpecialty);
 router.post("/", postSpecialty)
 export default router;

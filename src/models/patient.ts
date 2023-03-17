@@ -7,7 +7,7 @@ export interface Patient {
 	email: string;
 	address: string;
 	phoneNumber: number;
-	date: Types.ObjectId[] | Date[];
+	date: Types.ObjectId[] | string;
 	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
 }

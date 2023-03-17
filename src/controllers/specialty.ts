@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
 import SpecialtyModel from "../models/specialty";
-const data = require('../../src/data.js')
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await SpecialtyModel.find().populate('doctors', 'name');
+		const specialities = await SpecialtyModel.find().populate( 'name');
 		res.json(specialities)
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -42,7 +41,7 @@ const assignSpecialty = async (req: Request, res: Response) => {
 		const updated = await DoctorModel.findByIdAndUpdate(_id, {$push: {specialties: specialties}})
 		res.send(`${updated?.name}`)
 	} catch (error) {
-		
+		res.status(404).send({ message: error });
 	}
 }
 

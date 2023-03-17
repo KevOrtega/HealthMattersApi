@@ -4,8 +4,8 @@ import { getPatient, postPatient, getPatientList, assignPatient } from "../contr
 const router = Router()
 
 router.get("/", getPatientList)
-router.put("/assignPatient/:id", assignPatient);
-router.get("/:id", getPatient)
+router.put("/assignPatient/:_id", assignPatient);
+router.get("/:_id", getPatient)
 router.post("/", postPatient)
 
 export default router

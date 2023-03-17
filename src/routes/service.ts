@@ -4,8 +4,8 @@ import { getServices, postServices, assignService, detailServices } from "../con
 const router = Router();
 
 router.get("/", getServices)
-router.put("/assignService/:id", assignService)
-router.get("/:id", detailServices)
+router.put("/assignService/:_id", assignService)
+router.get("/:_id", detailServices)
 router.post("/", postServices)
 
 export default router;
