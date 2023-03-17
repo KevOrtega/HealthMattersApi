@@ -1,12 +1,15 @@
-import { Schema, Types, Model, model } from "mongoose";
+import mongoose, { Schema, Types, Model, model } from "mongoose";
+
 
 export interface Doctor {
     name: string;
     lastname: string;
     email: string;
-    specialty: [string];
+    specialties: Types.ObjectId[] | string[]
     registration: string;
     phoneNumber: number;
+    patients: Types.ObjectId[] | string[]
+    date: Types.ObjectId[] | string[]
 }
 
 const DoctorSchema = new Schema<Doctor>(
@@ -17,9 +20,12 @@ const DoctorSchema = new Schema<Doctor>(
         lastname: {
             type: String
         },
-        specialty: {
-            type: [String]
-        },
+        specialties:[{
+            type: mongoose.Schema.Types.ObjectId, ref: 'specialties',
+        }],
+        patients: [{
+            type: mongoose.Schema.Types.ObjectId, ref: "patients"
+        }],
         registration: {
             type: String
         },
@@ -28,13 +34,10 @@ const DoctorSchema = new Schema<Doctor>(
         },
         email: {
             type: String
-        }
+        },
+        date: [{type: Schema.Types.ObjectId, ref: "date"}]
     },
-	{
-		timestamps: true,
-		versionKey: false,
-	}
 );
 
-const DoctorModel = model('Doctors', DoctorSchema)
+const DoctorModel = model('doctors', DoctorSchema)
 export default DoctorModel

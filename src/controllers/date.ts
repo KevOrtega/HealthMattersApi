@@ -3,7 +3,7 @@ import DateModel from "../models/date";
 
 const getDateList = async (req: Request, res: Response) => {
 	try {
-		const allDates = await DateModel.find({});
+		const allDates = await DateModel.find({}).populate('patients');
 		res.send(allDates);
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -12,8 +12,8 @@ const getDateList = async (req: Request, res: Response) => {
 
 const postDate = async (req: Request, res: Response) => {
 	try {
-		const { date, time, doctor, patient, service } = req.body;
-		const newDate = new DateModel({ date, time, doctor, patient, service });
+		const { date, time } = req.body;
+		const newDate = new DateModel({ date, time });
 		const savedDate = await newDate.save();
 		res.status(201).json({ date: savedDate });
 	} catch (error) {
@@ -31,16 +31,6 @@ const getDate = async (req: Request, res: Response) => {
 	}
 };
 
-const putDate = async (req: Request, res: Response) => {
-	try {
-		const { id } = req.params;
-		const { date, time, doctor, patient, service } = req.body;
-		const updatedDate = await DateModel.findOneAndUpdate({ _id: id }, { date, time, doctor, patient, service }, { new: true });
-		res.status(200).json({ date: updatedDate });
-	} catch (error) {
-		res.status(404).send({ message: error });
-	}
-};
 
 const deleteDate = async (req: Request, res: Response) => {
 	try {
@@ -52,4 +42,15 @@ const deleteDate = async (req: Request, res: Response) => {
 	}
 };
 
-export { postDate, getDate, getDateList, putDate, deleteDate };
+const assignDate = async (req: Request, res: Response) => {
+	try {
+		const {_id} = req.params;
+		const {patients} = req.body;
+		const updated = await DateModel.findByIdAndUpdate(_id, {$push: {patients: patients}})
+		res.send(`${updated?.date}`)
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+}
+
+export { postDate, getDate, getDateList, deleteDate, assignDate };

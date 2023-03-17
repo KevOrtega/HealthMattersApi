@@ -1,40 +1,33 @@
 import { Schema, Types, Model, model } from "mongoose";
 
 export interface Services {
-	title: string;
+	name: string;
 	description: string;
-	doctor: [string]
 	price: number;
 	availability: string;
-	time: string;
+    patients: Types.ObjectId | string;
 }
 
 const ServiceSchema = new Schema<Services>(
 	{
-        title: {
+        name: {
             type: String,
         },
         description: {
             type: String,
         },
-        doctor: {
-            type: [String],
-        },
+        
         price: {
             type: Number,
         },
 		availability: {
 			type: String,
 		},
-        time: {
-            type: String
-        }
+        patients: [{
+            type: Schema.Types.ObjectId, ref: "patients"
+        }]
     },
-	{
-		timestamps: true,
-		versionKey: false,
-	}
 );
 
-const ServiceModel = model('Services', ServiceSchema)
+const ServiceModel = model('services', ServiceSchema)
 export default ServiceModel
