@@ -4,35 +4,54 @@ import ServiceModel from "../models/services";
 
 const getServices = async (req: Request, res: Response) => {
 	try {
-		const { specialties, search } = req.query;
+		const { specialties, search, price, rating, page } = req.query;
+		const servicesPerPage = 6;
+		const pageNumber = parseInt(page as string, 10) || 1;
+
 		let services;
 		if (search) {
-			services = await ServiceModel.find({ name: { $in: search } });
+			services = await ServiceModel.find({ name: { $in: search } })
 		}
 		if (specialties) {
-			services = await ServiceModel.find({ specialties: { $in: [specialties] } });
+			services = await ServiceModel.find({ specialties: { $in: [specialties] }})
 		} else {
-			services = await ServiceModel.find({});
+			services = await ServiceModel.find({})
 		}
-		res.status(200).send(services);
+		if (price === 'ASC' ) {
+			services = services.sort((a, b) => a.price - b.price);
+		}
+        if (price === 'DESC') {
+			services = services.sort((a, b) => b.price - a.price);
+		}
+		if (rating === 'ASC') {
+			services = services.sort((a, b) => a.rating - b.rating)
+		}
+        if ( rating === 'DESC') {
+			services = services.sort((a, b) => b.rating - a.rating)
+		}
+		const servicesCount = services.length;
+		const servicesToSkip = servicesPerPage * (pageNumber - 1);
+
+		services = services.slice(servicesToSkip, servicesToSkip + servicesPerPage);
+
+		res.status(200).send({
+			services,
+			currentPage: pageNumber,
+			pages: Math.ceil(servicesCount / servicesPerPage),
+			count: servicesCount
+		  });
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
-// const getServices = async (req: Request, res: Response) => {
-// 	try {
-// 		const allServices = await ServiceModel.find({})
-// 		res.status(200).send(allServices);
-// 	} catch (error) {
-// 		res.status(404).send({ message: error });
-// 	}
-// };
+
+
 
 const postServices = async (req: Request, res: Response) => {
 	try {
-		const { name, description, price, availability, specialties } = req.body;
-		const newService = new ServiceModel({ name, description, price, availability });
+		const { name, description, price, availability, specialties, rating } = req.body;
+		const newService = new ServiceModel({ name, description, price, availability, rating });
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
 		res.status(200).json(saveService);
@@ -61,15 +80,7 @@ const deleteService = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
-// const assignService = async (req: Request, res: Response) => {
-// 	try {
-// 		const {_id} = req.params;
-// 		const {patients} = req.body;
-// 		const updated = await PatientModel.findByIdAndUpdate(_id,  {$push: { patients: patients}})
-// 		res.status(200).send(`${updated?.name}`)
-// 	} catch (error) {
-// 		res.status(404).send({ message: error });
-// 	}
+
 
 const assignService = async (req: Request, res: Response) => {
 	try {

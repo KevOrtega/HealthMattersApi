@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
-import ServiceModel from "../models/services";
 import SpecialtyModel from "../models/specialty";
 
 const getDoctors = async (req: Request, res: Response) => {
@@ -55,7 +54,5 @@ const assignDoctor = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
-
-
 
 export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };
