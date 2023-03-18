@@ -4,8 +4,8 @@ import SpecialtyModel from "../models/specialty";
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await SpecialtyModel.find().populate( 'name');
-		res.json(specialities)
+		const specialities = await SpecialtyModel.find().populate("name");
+		res.json(specialities);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -13,16 +13,15 @@ const getSpecialty = async (req: Request, res: Response) => {
 
 const postSpecialty = async (req: Request, res: Response) => {
 	try {
-	//  const specialities = await data
-	 const {name} = req.body
-	 const postSpecialities = new SpecialtyModel({ name })
-	 const saveSpecialities = await postSpecialities.save()
-	 res.status(200).send(saveSpecialities)
+		//  const specialities = await data
+		const { name } = req.body;
+		const postSpecialities = new SpecialtyModel({ name });
+		const saveSpecialities = await postSpecialities.save();
+		res.status(200).send(saveSpecialities);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
-}
-
+};
 
 const detailSpecialty = async (req: Request, res: Response) => {
 	try {
@@ -36,14 +35,13 @@ const detailSpecialty = async (req: Request, res: Response) => {
 
 const assignSpecialty = async (req: Request, res: Response) => {
 	try {
-		const {_id} = req.params;
-		const {specialties} = req.body
-		const updated = await DoctorModel.findByIdAndUpdate(_id, {$push: {specialties: specialties}})
-		res.send(`${updated?.name}`)
+		const { _id } = req.params;
+		const { specialties } = req.body;
+		const updated = await DoctorModel.findByIdAndUpdate(_id, { $push: { specialties: specialties } });
+		res.send(`${updated?.name}`);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
-}
+};
 
 export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty };
-
