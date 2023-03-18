@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import PatientModel from "../models/patient";
 import ServiceModel from "../models/services";
 
 const getServices = async (req: Request, res: Response) => {
