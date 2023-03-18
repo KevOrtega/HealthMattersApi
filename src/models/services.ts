@@ -1,40 +1,58 @@
-import { Schema, Types, Model, model } from "mongoose";
+import { Schema, Types, model, Model } from "mongoose";
 
 export interface Services {
-	title: string;
+	name: string;
 	description: string;
-	doctor: [string]
 	price: number;
 	availability: string;
-	time: string;
+	// patients: Types.ObjectId | string;
+	specialties: Types.ObjectId[] | string[];
+	date: Types.ObjectId[] | string;
+	doctors: Types.ObjectId[] | string;
+	rating: number;
 }
 
-const ServiceSchema = new Schema<Services>(
-	{
-        title: {
-            type: String,
-        },
-        description: {
-            type: String,
-        },
-        doctor: {
-            type: [String],
-        },
-        price: {
-            type: Number,
-        },
-		availability: {
-			type: String,
-		},
-        time: {
-            type: String
-        }
-    },
-	{
-		timestamps: true,
-		versionKey: false,
-	}
-);
+const ServiceSchema = new Schema<Services>({
+	name: {
+		type: String,
+	},
+	description: {
+		type: String,
+	},
 
-const ServiceModel = model('Services', ServiceSchema)
-export default ServiceModel
+	price: {
+		type: Number,
+	},
+	availability: {
+		type: String,
+	},
+	// patients: [{
+	//     type: Schema.Types.ObjectId, ref: "patients",
+
+	// }],
+	specialties: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "specialties",
+		},
+	],
+	doctors: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "doctors",
+		},
+	],
+	date: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "date",
+		},
+	],
+    rating: {
+		type: Number,
+	}
+
+});
+
+const ServiceModel: Model<Services> = model("services", ServiceSchema);
+export default ServiceModel;
