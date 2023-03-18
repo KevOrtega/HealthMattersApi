@@ -25,8 +25,8 @@ const postServices = async (req: Request, res: Response) => {
 
 const detailServices = async (req: Request, res: Response) => {
 	try {
-		const { id } = req.params;
-		const servicesId = await ServiceModel.findOne({ _id: id });
+		const { _id } = req.params;
+		const servicesId = await ServiceModel.findOne({ _id });
 		res.send(servicesId);
 	} catch (error) {
 		res.status(404).json({ message: error });
@@ -34,14 +34,24 @@ const detailServices = async (req: Request, res: Response) => {
 };
 
 
-const assignService = async (req: Request, res: Response) => {
+const deleteService = async (req: Request, res: Response) => {
 	try {
-		const {_id} = req.params;
-		const {patients} = req.body;
-		const updated = await PatientModel.findByIdAndUpdate(_id,  {$push: { patients: patients}})
-		res.status(200).send(`${updated?.name}`)
+		const { _id } = req.params;
+		await ServiceModel.deleteOne({ _id });
+		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
-}
-export { getServices, postServices, assignService, detailServices };
+};
+
+const assignService = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		const { patients } = req.body;
+		const updated = await PatientModel.findByIdAndUpdate(_id, { $push: { patients: patients } });
+		res.status(200).send(`${updated?.name}`);
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+export { getServices, postServices, assignService, detailServices, deleteService };

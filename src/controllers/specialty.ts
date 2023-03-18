@@ -34,6 +34,16 @@ const detailSpecialty = async (req: Request, res: Response) => {
 	}
 };
 
+const deleteSpecialty = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		await SpecialtyModel.findByIdAndDelete({ _id });
+		res.status(200).json("successfully deleted");
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
 const assignSpecialty = async (req: Request, res: Response) => {
 	try {
 		const {_id} = req.params;
@@ -45,5 +55,5 @@ const assignSpecialty = async (req: Request, res: Response) => {
 	}
 }
 
-export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty };
+export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty, deleteSpecialty };
 

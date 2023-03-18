@@ -6,6 +6,7 @@ export interface Services {
 	price: number;
 	availability: string;
     patients: Types.ObjectId | string;
+    doctors: Types.ObjectId | string;
 }
 
 const ServiceSchema = new Schema<Services>(
@@ -16,7 +17,9 @@ const ServiceSchema = new Schema<Services>(
         description: {
             type: String,
         },
-        
+        doctors: {
+            type: Schema.Types.ObjectId, ref: "doctors"
+        },
         price: {
             type: Number,
         },

@@ -10,6 +10,7 @@ export interface Doctor {
     phoneNumber: number;
     patients: Types.ObjectId[] | string[]
     date: Types.ObjectId[] | string[]
+    services: Types.ObjectId[] | string[]
 }
 
 const DoctorSchema = new Schema<Doctor>(
@@ -20,6 +21,9 @@ const DoctorSchema = new Schema<Doctor>(
         lastname: {
             type: String
         },
+        services: [{
+            type: mongoose.Schema.Types.ObjectId, ref: 'services',
+        }],
         specialties:[{
             type: mongoose.Schema.Types.ObjectId, ref: 'specialties',
         }],
@@ -35,7 +39,8 @@ const DoctorSchema = new Schema<Doctor>(
         email: {
             type: String
         },
-        date: [{type: Schema.Types.ObjectId, ref: "date"}]
+        date: [{type: Schema.Types.ObjectId, ref: "date"}],
+        
     },
 );
 

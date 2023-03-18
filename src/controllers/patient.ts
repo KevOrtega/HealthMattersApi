@@ -33,17 +33,25 @@ const getPatient = async (req: Request, res: Response) => {
 	}
 };
 
+const deletePatient = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		await PatientModel.deleteOne({ _id });
+		res.status(200).json('successfully deleted')
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
 const assignPatient = async (req: Request, res: Response) => {
 	try {
-		const {_id} = req.params;
-		const {services} = req.body;
-		const updated = await ServiceModel.findByIdAndUpdate(_id,  {$push: { services: services}})
-		res.status(200).send(`${updated?.name}`)
+		const { _id } = req.params;
+		const { services } = req.body;
+		const updated = await ServiceModel.findByIdAndUpdate(_id, { $push: { services: services } });
+		res.status(200).send(`${updated?.name}`);
 	} catch (error) {
 		res.status(404).json({ message: error });
 	}
-}
+};
 
-
-
-export { postPatient, getPatient, getPatientList, assignPatient };
+export { postPatient, getPatient, getPatientList, assignPatient, deletePatient };
