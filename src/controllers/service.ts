@@ -23,13 +23,17 @@ const getServices = async (req: Request, res: Response) => {
 			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
 
-		const specialtiesArray: string[] | undefined = specialties ? (Array.isArray(specialties) ? specialties : [specialties]) : undefined;
+		const specialtiesArray: string[] | undefined = specialties
+			? Array.isArray(specialties)
+				? specialties
+				: [specialties]
+			: undefined;
 
 		const search_params = Object.assign(
 			{},
 			search
 				? {
-						name: { $in: search },
+						name: new RegExp(`^${search}$`, "i"),
 				  }
 				: {},
 			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
@@ -52,7 +56,6 @@ const getServices = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
-
 
 const postServices = async (req: Request, res: Response) => {
 	try {
