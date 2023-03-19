@@ -18,10 +18,12 @@ const getServices = async (req: Request, res: Response) => {
 
 		const orders_methods = {
 			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			priceDESC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			ratingDESC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
+			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
+			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
+
+		const specialtiesArray: string[] | undefined = specialties ? (Array.isArray(specialties) ? specialties : [specialties]) : undefined;
 
 		const search_params = Object.assign(
 			{},
@@ -30,7 +32,7 @@ const getServices = async (req: Request, res: Response) => {
 						name: { $in: search },
 				  }
 				: {},
-			specialties ? { specialties: { $in: specialties } } : {}
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
 		);
 
 		const services = order
@@ -50,6 +52,7 @@ const getServices = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
+
 
 const postServices = async (req: Request, res: Response) => {
 	try {
