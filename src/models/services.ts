@@ -8,7 +8,7 @@ export interface Services {
 	// patients: Types.ObjectId | string;
 	specialties: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string;
-	doctors: Types.ObjectId[] | string;
+	doctor: Types.ObjectId[] | string;
 	rating: number;
 }
 
@@ -36,7 +36,7 @@ const ServiceSchema = new Schema<Services>({
 			ref: "specialties",
 		},
 	],
-	doctors: [
+	doctor: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "doctors",
