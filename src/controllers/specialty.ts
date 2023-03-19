@@ -4,12 +4,25 @@ import SpecialtyModel from "../models/specialty";
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await SpecialtyModel.find().populate("name");
-		res.json(specialities);
+		const specialtyName = req.query.specialty;
+		const specialty = await SpecialtyModel.findOne({ name: specialtyName }).populate("doctors");
+		if (!specialty) {
+			return res.status(404).send({ message: "Specialty not found" });
+		}
+		res.json(specialty.doctors);
 	} catch (error) {
-		res.status(404).send({ message: error });
+		res.status(500).send({ message: error });
 	}
 };
+
+// const getSpecialty = async (req: Request, res: Response) => {
+// 	try {
+// 		const specialities = await SpecialtyModel.find().populate("name");
+// 		res.json(specialities);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
 
 const postSpecialty = async (req: Request, res: Response) => {
 	try {

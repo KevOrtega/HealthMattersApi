@@ -2,15 +2,29 @@ import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
 import SpecialtyModel from "../models/specialty";
 
-
 const getDoctors = async (req: Request, res: Response) => {
 	try {
-		const allDoctors = await DoctorModel.find().populate('specialties')
-		res.status(200).send(allDoctors);
+		const { specialty } = req.query;
+		let doctors;
+		if (specialty) {
+			doctors = await DoctorModel.find({ specialties: { $in: [specialty] } }).populate("specialties");
+		} else {
+			doctors = await DoctorModel.find().populate("specialties");
+		}
+		res.status(200).send(doctors);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
+
+// const getDoctors = async (req: Request, res: Response) => {
+// 	try {
+// 		const allDoctors = await DoctorModel.find().populate('specialties')
+// 		res.status(200).send(allDoctors);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
 
 const postDoctors = async (req: Request, res: Response) => {
 	try {
@@ -35,15 +49,15 @@ const getDoctorsDetail = async (req: Request, res: Response) => {
 
 const assignDoctor = async (req: Request, res: Response) => {
 	try {
-		const {_id} = req.params;
-		const {doctors} = req.body;
-		const updated = await SpecialtyModel.findByIdAndUpdate(_id, {$push: {doctors: doctors}})
+		const { _id } = req.params;
+		const { doctors } = req.body;
+		const updated = await SpecialtyModel.findByIdAndUpdate(_id, { $push: { doctors: doctors } });
 		console.log(updated);
-		
-		res.send(`${updated?.name}`)
+
+		res.send(`${updated?.name}`);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
-}
+};
 
 export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor };
