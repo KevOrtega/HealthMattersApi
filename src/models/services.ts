@@ -14,47 +14,46 @@ export interface Services {
 const ServiceSchema = new Schema<Services>({
 	name: {
 		type: String,
-		required: true
+		required: true,
 	},
 	description: {
 		type: String,
-		required: true
+		required: true,
 	},
 
 	price: {
 		type: Number,
-		required: true
+		required: true,
 	},
 	availability: {
 		type: String,
-		required: true
+		required: true,
 	},
 	specialties: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "specialties",
-			required: true
+			required: true,
 		},
 	],
 	doctor: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "doctors",
-			required: true
+			required: true,
 		},
 	],
 	date: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: "date",
-			required: true
+			required: true,
 		},
 	],
-    rating: {
+	rating: {
 		type: Number,
-		required: true
-	}
-
+		required: true,
+	},
 });
 
 const ServiceModel: Model<Services> = model("services", ServiceSchema);
