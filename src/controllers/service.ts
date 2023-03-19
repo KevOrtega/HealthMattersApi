@@ -1,51 +1,57 @@
 import { Request, Response } from "express";
 import PatientModel from "../models/patient";
-import ServiceModel from "../models/services";
+import ServiceModel, { Services } from "../models/services";
+
+type getServicesQueries = {
+	specialties?: string;
+	search?: string;
+	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC";
+	page?: string;
+};
 
 const getServices = async (req: Request, res: Response) => {
 	try {
-		const { specialties, search, price, rating, page } = req.query;
+		const { specialties, search, order, page }: getServicesQueries = req.query;
+
 		const servicesPerPage = 6;
 		const pageNumber = parseInt(page as string, 10) || 1;
 
-		let services;
-		if (search) {
-			services = await ServiceModel.find({ name: { $in: search } })
-		}
-		if (specialties) {
-			services = await ServiceModel.find({ specialties: { $in: [specialties] }})
-		} else {
-			services = await ServiceModel.find({})
-		}
-		if (price === 'ASC' ) {
-			services = services.sort((a, b) => a.price - b.price);
-		}
-        if (price === 'DESC') {
-			services = services.sort((a, b) => b.price - a.price);
-		}
-		if (rating === 'ASC') {
-			services = services.sort((a, b) => a.rating - b.rating)
-		}
-        if ( rating === 'DESC') {
-			services = services.sort((a, b) => b.rating - a.rating)
-		}
+		const orders_methods = {
+			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
+			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
+			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
+		};
+
+		const specialtiesArray: string[] | undefined = specialties ? (Array.isArray(specialties) ? specialties : [specialties]) : undefined;
+
+		const search_params = Object.assign(
+			{},
+			search
+				? {
+						name: { $in: search },
+				  }
+				: {},
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
+		);
+
+		const services = order
+			? orders_methods[order](await ServiceModel.find(search_params))
+			: await ServiceModel.find(search_params);
+
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
-		services = services.slice(servicesToSkip, servicesToSkip + servicesPerPage);
-
 		res.status(200).send({
-			services,
+			services: services.slice(servicesToSkip, servicesToSkip + servicesPerPage),
 			currentPage: pageNumber,
 			pages: Math.ceil(servicesCount / servicesPerPage),
-			count: servicesCount
-		  });
+			count: servicesCount,
+		});
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
-
-
 
 
 const postServices = async (req: Request, res: Response) => {
@@ -70,7 +76,6 @@ const detailServices = async (req: Request, res: Response) => {
 	}
 };
 
-
 const deleteService = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
@@ -81,15 +86,14 @@ const deleteService = async (req: Request, res: Response) => {
 	}
 };
 
-
 const assignService = async (req: Request, res: Response) => {
 	try {
-		const {_id} = req.params;
-		const {patients} = req.body;
-		const updated = await PatientModel.findByIdAndUpdate(_id,  {$push: { patients: patients}})
-		res.status(200).send(`${updated?.name}`)
+		const { _id } = req.params;
+		const { patients } = req.body;
+		const updated = await PatientModel.findByIdAndUpdate(_id, { $push: { patients: patients } });
+		res.status(200).send(`${updated?.name}`);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
-}
+};
 export { getServices, postServices, assignService, detailServices };
