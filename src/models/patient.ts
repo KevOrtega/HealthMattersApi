@@ -40,6 +40,7 @@ const PatientSchema = new Schema<Patient>(
 		}],
 		doctors: [{
 			type: Schema.Types.ObjectId, ref: 'doctors'
+			
 		}],
 		services: [{
 			type: Schema.Types.ObjectId, ref: 'services'
