@@ -3,7 +3,7 @@ import PatientModel from "../models/patient";
 import ServiceModel, { Services } from "../models/services";
 
 type getServicesQueries = {
-	specialties?: string[];
+	specialties?: string;
 	search?: string;
 	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC";
 	page?: string;
@@ -12,6 +12,7 @@ type getServicesQueries = {
 const getServices = async (req: Request, res: Response) => {
 	try {
 		const { specialties, search, order, page }: getServicesQueries = req.query;
+
 		const servicesPerPage = 6;
 		const pageNumber = parseInt(page as string, 10) || 1;
 
