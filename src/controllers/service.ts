@@ -3,7 +3,7 @@ import PatientModel from "../models/patient";
 import ServiceModel, { Services } from "../models/services";
 
 type getServicesQueries = {
-	specialties?: string;
+	specialties?: string[];
 	search?: string;
 	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC";
 	page?: string;
