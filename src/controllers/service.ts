@@ -18,19 +18,25 @@ const getServices = async (req: Request, res: Response) => {
 
 		const orders_methods = {
 			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			priceDESC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			ratingDESC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
+			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
+			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
+
+		const specialtiesArray: string[] | undefined = specialties
+			? Array.isArray(specialties)
+				? specialties
+				: [specialties]
+			: undefined;
 
 		const search_params = Object.assign(
 			{},
 			search
 				? {
-						name: { $in: search },
+						name: new RegExp(`^${search}$`, "i"),
 				  }
 				: {},
-			specialties ? { specialties: { $in: specialties } } : {}
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
 		);
 
 		const services = order
@@ -65,8 +71,8 @@ const postServices = async (req: Request, res: Response) => {
 
 const detailServices = async (req: Request, res: Response) => {
 	try {
-		const { _id } = req.params;
-		const servicesId = await ServiceModel.findOne({ _id });
+		const { id } = req.params;
+		const servicesId = await ServiceModel.findById(id);
 		res.send(servicesId);
 	} catch (error) {
 		res.status(404).json({ message: error });

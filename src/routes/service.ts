@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", getServices);
 //router.put("/assignService/:_id", assignService)
-router.get("/:_id", detailServices);
+router.get("/:id", detailServices);
 router.post("/", postServices);
 
 export default router;
