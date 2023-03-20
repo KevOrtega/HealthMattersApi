@@ -33,9 +33,9 @@ const getDate = async (req: Request, res: Response) => {
 
 const deleteDate = async (req: Request, res: Response) => {
 	try {
-		const { id } = req.params;
-		await DateModel.findOneAndDelete({ _id: id });
-		res.status(200).send();
+		const { _id } = req.params;
+		await DateModel.deleteOne({ _id });
+		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}

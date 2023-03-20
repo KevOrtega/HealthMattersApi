@@ -4,14 +4,8 @@ import SpecialtyModel from "../models/specialty";
 
 const getDoctors = async (req: Request, res: Response) => {
 	try {
-		const { specialty } = req.query;
-		let doctors;
-		if (specialty) {
-			doctors = await DoctorModel.find({ specialties: { $in: [specialty] } }).populate("specialties");
-		} else {
-			doctors = await DoctorModel.find().populate("specialties");
-		}
-		res.status(200).send(doctors);
+		const allDoctors = await DoctorModel.find().populate("specialties");
+		res.status(200).send(allDoctors);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -40,8 +34,18 @@ const postDoctors = async (req: Request, res: Response) => {
 const getDoctorsDetail = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const doctorId = await DoctorModel.findOne({ _id: id });
+		const doctorId = await DoctorModel.findById(id);
 		res.send(doctorId);
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
+const deleteDoctor = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		await DoctorModel.findOneAndDelete({ _id });
+		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -60,4 +64,4 @@ const assignDoctor = async (req: Request, res: Response) => {
 	}
 };
 
-export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor };
+export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };

@@ -4,7 +4,7 @@ import { getDate, postDate, getDateList, deleteDate, assignDate } from "../contr
 const router = Router();
 
 router.get("/", getDateList);
-router.get("/:_id", getDate);
+router.get("/:id", getDate);
 router.post("/", postDate);
 router.put("/assignDate/:_id", assignDate);
 router.delete("/:_id", deleteDate);
