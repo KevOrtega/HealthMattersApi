@@ -71,8 +71,8 @@ const postServices = async (req: Request, res: Response) => {
 
 const detailServices = async (req: Request, res: Response) => {
 	try {
-		const { _id } = req.params;
-		const servicesId = await ServiceModel.findOne({ _id });
+		const { id } = req.params;
+		const servicesId = await ServiceModel.findById(id);
 		res.send(servicesId);
 	} catch (error) {
 		res.status(404).json({ message: error });
