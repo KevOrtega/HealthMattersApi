@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", getDoctors);
 router.put("/assignDoctor/:_id", assignDoctor);
-router.get("/:_id", getDoctorsDetail);
+router.get("/:id", getDoctorsDetail);
 router.post("/", postDoctors);
 router.delete("/:_id", deleteDoctor);
 export default router;
