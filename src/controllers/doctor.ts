@@ -11,15 +11,6 @@ const getDoctors = async (req: Request, res: Response) => {
 	}
 };
 
-// const getDoctors = async (req: Request, res: Response) => {
-// 	try {
-// 		const allDoctors = await DoctorModel.find().populate('specialties')
-// 		res.status(200).send(allDoctors);
-// 	} catch (error) {
-// 		res.status(404).send({ message: error });
-// 	}
-// };
-
 const postDoctors = async (req: Request, res: Response) => {
 	try {
 		const { name, lastname, specialties, phoneNumber, registration, email } = req.body;
