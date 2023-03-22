@@ -23,11 +23,7 @@ const getServices = async (req: Request, res: Response) => {
 			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
 
-		const specialtiesArray: string[] | undefined = specialties
-			? Array.isArray(specialties)
-				? specialties
-				: [specialties]
-			: undefined;
+		const specialtiesArray: string[] | undefined = specialties ? specialties.split(",") : undefined;
 
 		const search_params = Object.assign(
 			{},
