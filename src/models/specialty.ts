@@ -1,6 +1,7 @@
-import { Schema, model, Types, Model } from "mongoose";
+import { Schema, model, Types, Model, ObjectId } from "mongoose";
 
 export interface Specialty {
+    _id: ObjectId;
 	name: string;
 	doctors: Types.ObjectId[] | string[];
 }

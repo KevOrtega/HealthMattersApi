@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import PatientModel from "../models/patient";
 import ServiceModel, { Services } from "../models/services";
+import mongoose from "mongoose";
 
 type getServicesQueries = {
 	specialties?: string;
@@ -9,49 +10,61 @@ type getServicesQueries = {
 	page?: string;
 };
 
+
 const getServices = async (req: Request, res: Response) => {
+	const {search} = req.params
+	let services;
 	try {
-		const { specialties, search, order, page }: getServicesQueries = req.query;
-
-		const servicesPerPage = 6;
-		const pageNumber = parseInt(page as string, 10) || 1;
-
-		const orders_methods = {
-			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
-			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
-			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
-		};
-
-		const specialtiesArray: string[] | undefined = specialties ? (Array.isArray(specialties) ? specialties : [specialties]) : undefined;
-
-		const search_params = Object.assign(
-			{},
-			search
-				? {
-						name: { $in: search },
-				  }
-				: {},
-			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
-		);
-
-		const services = order
-			? orders_methods[order](await ServiceModel.find(search_params))
-			: await ServiceModel.find(search_params);
-
-		const servicesCount = services.length;
-		const servicesToSkip = servicesPerPage * (pageNumber - 1);
-
-		res.status(200).send({
-			services: services.slice(servicesToSkip, servicesToSkip + servicesPerPage),
-			currentPage: pageNumber,
-			pages: Math.ceil(servicesCount / servicesPerPage),
-			count: servicesCount,
-		});
+		if (search) {
+			services = await ServiceModel.find({ name: { $in: search } });
+		}
+		console.log(search);
+		
+		res.send(services)
 	} catch (error) {
-		res.status(404).send({ message: error });
+		res.status(404).send({ message: 'Ocurrió un error al obtener los servicios.', error });
 	}
-};
+}
+
+// const getServices = async (req: Request, res: Response) => {
+// 	try {
+// 		const { specialties, search, order, page }: getServicesQueries = req.query;
+
+// 		const servicesPerPage = 6;
+// 		const pageNumber = parseInt(page as string, 10) || 1;
+
+// 		const orders_methods = {
+// 			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
+// 			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+// 			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
+// 			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
+// 		};
+
+// 		const search_params = {
+// 			...(search && { name: { $regex: search, $options: "i" } }),
+// 			...(specialties && { specialties: new mongoose.Types.ObjectId(specialties) }),
+			
+// 		};
+// 		console.log(specialties);
+
+
+// 		const services = order
+// 			? orders_methods[order](await ServiceModel.find(search_params).populate("specialties"))
+// 			: await ServiceModel.find(search_params).populate("specialties");
+
+// 		const servicesCount = services.length;
+// 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
+
+// 		res.status(200).send({
+// 			services: services.slice(servicesToSkip, servicesToSkip + servicesPerPage),
+// 			currentPage: pageNumber,
+// 			pages: Math.ceil(servicesCount / servicesPerPage),
+// 			count: servicesCount,
+// 		});
+// 	} catch (error) {
+// 		res.status(404).send({ message: 'Ocurrió un error al obtener los servicios.', error });
+// 	}
+// };
 
 
 const postServices = async (req: Request, res: Response) => {
