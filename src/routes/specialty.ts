@@ -4,8 +4,8 @@ import { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty, deleteSp
 const router = Router();
 
 router.get("/", getSpecialty);
-router.get("/:_id", detailSpecialty);
+router.get("/:id", detailSpecialty);
 router.put("/assignSpecialty/:_id", assignSpecialty);
-router.post("/", postSpecialty)
-router.delete("/:_id", deleteSpecialty)
+router.post("/", postSpecialty);
+router.delete("/:_id", deleteSpecialty);
 export default router;

@@ -40,7 +40,7 @@ const postSpecialty = async (req: Request, res: Response) => {
 const detailSpecialty = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const specialtyId = await SpecialtyModel.findOne({ _id: id });
+		const specialtyId = await SpecialtyModel.findById(id);
 		res.send(specialtyId);
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -69,4 +69,3 @@ const assignSpecialty = async (req: Request, res: Response) => {
 };
 
 export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty, deleteSpecialty };
-

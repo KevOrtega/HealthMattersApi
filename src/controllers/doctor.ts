@@ -25,7 +25,7 @@ const postDoctors = async (req: Request, res: Response) => {
 const getDoctorsDetail = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const doctorId = await DoctorModel.findOne({ _id: id });
+		const doctorId = await DoctorModel.findById(id);
 		res.send(doctorId);
 	} catch (error) {
 		res.status(404).send({ message: error });
