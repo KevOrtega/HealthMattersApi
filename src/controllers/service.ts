@@ -5,7 +5,7 @@ import ServiceModel, { Services } from "../models/services";
 type getServicesQueries = {
 	specialties?: string;
 	search?: string;
-	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC";
+	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC" | "alphabeticallyASC" | "alphabeticallyDESC";
 	page?: string;
 };
 
@@ -17,17 +17,15 @@ const getServices = async (req: Request, res: Response) => {
 		const pageNumber = parseInt(page as string, 10) || 1;
 
 		const orders_methods = {
+			alphabeticallyASC: (arr: Services[]) => arr.sort((a, b) => a.name.localeCompare(b.name)),
+			alphabeticallyDESC: (arr: Services[]) => arr.sort((a, b) => b.name.localeCompare(a.name)),
 			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
 			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
 			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
 			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
 
-		const specialtiesArray: string[] | undefined = specialties
-			? Array.isArray(specialties)
-				? specialties
-				: [specialties]
-			: undefined;
+		const specialtiesArray: string[] | undefined = specialties ? specialties.split(",") : undefined;
 
 		const search_params = Object.assign(
 			{},
@@ -53,7 +51,7 @@ const getServices = async (req: Request, res: Response) => {
 			count: servicesCount,
 		});
 	} catch (error) {
-		res.status(404).send({ message: error });
+		res.status(404).send({ message: "Ocurrió un error al obtener los servicios.", error });
 	}
 };
 
