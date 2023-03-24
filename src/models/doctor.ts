@@ -4,12 +4,15 @@ export interface Doctor {
 	name: string;
 	lastname: string;
 	email: string;
+	password: string
 	specialties: Types.ObjectId[] | string;
 	registration: string;
 	phoneNumber: number;
 	patients: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string[];
 	services: Types.ObjectId[] | string[];
+	image: string
+	
 }
 
 const DoctorSchema = new Schema<Doctor>({
@@ -61,6 +64,12 @@ const DoctorSchema = new Schema<Doctor>({
 			required: true
 		},
 	],
+	image: {
+		type: String,
+	},
+	password: {
+		type: String
+	}
 });
 
 const DoctorModel = model("doctors", DoctorSchema);

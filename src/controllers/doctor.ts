@@ -13,7 +13,7 @@ const getDoctors = async (req: Request, res: Response) => {
 
 const postDoctors = async (req: Request, res: Response) => {
 	try {
-		const { name, lastname, specialties, phoneNumber, registration, email } = req.body;
+		const { name, lastname, specialties, phoneNumber, registration, email, password } = req.body;
 		const newDoctor = new DoctorModel({ name, lastname, specialties, phoneNumber, registration, email });
 		const savedDoctor = await newDoctor.save();
 		res.status(201).json(savedDoctor);
@@ -54,5 +54,11 @@ const assignDoctor = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
+
+  
+  
+  
+  
+  
 
 export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };
