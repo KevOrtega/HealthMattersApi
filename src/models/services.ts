@@ -1,4 +1,4 @@
-import { Schema, Types, model, Model } from "mongoose";
+import mongoose, { Schema, Types, model, Model, ObjectId } from "mongoose";
 
 export interface Services {
 	name: string;
@@ -31,7 +31,7 @@ const ServiceSchema = new Schema<Services>({
 	},
 	specialties: [
 		{
-			type: Schema.Types.ObjectId,
+			type: mongoose.Schema.Types.ObjectId,
 			ref: "specialties",
 			required: true,
 		},
