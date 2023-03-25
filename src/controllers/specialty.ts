@@ -1,24 +1,37 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
 import SpecialtyModel from "../models/specialty";
+import specialities from "../data";
+import dbConnect from "../config/mongo";
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await SpecialtyModel.find().populate("name");
+		const specialities = await SpecialtyModel.find().populate("name", "specialties");
 		res.json(specialities);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
+// const postSpecialty = async (req: Request, res: Response) => {
+// 	try {
+// 		//  const specialities = await data
+// 		const { name } = req.body;
+// 		const postSpecialities = new SpecialtyModel({ name });
+// 		const saveSpecialities = await postSpecialities.save();
+// 		res.status(200).send(saveSpecialities);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
+
 const postSpecialty = async (req: Request, res: Response) => {
 	try {
-		//  const specialities = await data
-		const { name, doctors } = req.body;
-		const postSpecialities = new SpecialtyModel({ name, doctors });
-		const saveSpecialities = await postSpecialities.save();
-		await saveSpecialities.updateOne({ $push: { doctors } });
-		res.status(200).send(saveSpecialities);
+		await dbConnect();
+		const specialties = specialities;
+		const result = await SpecialtyModel.insertMany(specialties);
+		console.log(specialties);
+		res.json(result);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
