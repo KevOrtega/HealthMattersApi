@@ -28,8 +28,5 @@ app.use("/dates", routerDates);
 app.use("/checkout", checkoutRouter);
 app.post("/notifications", handleNotifications);
 
-//mercadopago
-mercadopago.configure({ access_token: process.env.ACCESS_TOKEN || "default_token" });
-
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
