@@ -12,4 +12,3 @@ router.get("/:id", getDoctorsDetail);
 router.post("/", postDoctors);
 router.delete("/:_id", deleteDoctor);
 export default router;
-

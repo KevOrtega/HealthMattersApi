@@ -26,16 +26,16 @@ const getSpecialty = async (req: Request, res: Response) => {
 // };
 
 const postSpecialty = async (req: Request, res: Response) => {
-		try {
-			await dbConnect();
-			const specialties = specialities
-			const result = await SpecialtyModel.insertMany(specialties)
-			console.log(specialties);
-			res.json(result)
-		} catch (error) {
-			res.status(404).send({ message: error });
-		}
-	};
+	try {
+		await dbConnect();
+		const specialties = specialities;
+		const result = await SpecialtyModel.insertMany(specialties);
+		console.log(specialties);
+		res.json(result);
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
 
 const detailSpecialty = async (req: Request, res: Response) => {
 	try {
