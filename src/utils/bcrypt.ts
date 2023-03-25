@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import { hash, compare } from "bcryptjs";
 
 const encrypt = async (pass: string) => {
