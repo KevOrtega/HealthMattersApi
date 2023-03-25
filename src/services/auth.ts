@@ -9,30 +9,25 @@ import { generateToken } from "../utils/jw.handle";
 const registerNewUser = async ({ email, password, name }: User) => {
 	const checkIs = await UserModel.findOne({ email });
 	if (checkIs) return "Already exists";
-	const passHash = await encrypt(password)
-	const registerNewUser = await UserModel.create(
-		{   email, 
-			password : passHash,
-			name 
-		}
-		);
+	const passHash = await encrypt(password);
+	const registerNewUser = await UserModel.create({ email, password: passHash, name });
 	return registerNewUser;
 };
 
-const loginUser = async ({email, password}: Auth) => {
+const loginUser = async ({ email, password }: Auth) => {
 	const checkIs = await UserModel.findOne({ email });
 	if (!checkIs) return "Not found user";
 
-	const passwordHash = checkIs.password
-	const isCorrect = await verified(password, passwordHash)
+	const passwordHash = checkIs.password;
+	const isCorrect = await verified(password, passwordHash);
 
-	if(!isCorrect) return 'Password incorrect'
-	const token = generateToken(checkIs.email)
+	if (!isCorrect) return "Password incorrect";
+	const token = generateToken(checkIs.email);
 	const data = {
 		token,
-		user: checkIs
-	}
-	return data
+		user: checkIs,
+	};
+	return data;
 };
 
 export { registerNewUser, loginUser };

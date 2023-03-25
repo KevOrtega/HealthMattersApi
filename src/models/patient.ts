@@ -12,42 +12,46 @@ export interface Patient {
 	services: Types.ObjectId | string;
 }
 
-
-const PatientSchema = new Schema<Patient>(
-	{
-		name: {
-			type: String,
-			required: true
-		},
-		lastname: {
-			type: String,
-			required: true
-		},
-		email: {
-			type: String,
-		},
-		address: {
-			type: String,
-			required: true
-		},
-
-		phoneNumber: {
-			type: Number,
-			required: true
-		},
-		date: [{
-			type: Schema.Types.ObjectId, ref: 'date'
-		}],
-		doctors: [{
-			type: Schema.Types.ObjectId, ref: 'doctors'
-			
-		}],
-		services: [{
-			type: Schema.Types.ObjectId, ref: 'services'
-		}]
+const PatientSchema = new Schema<Patient>({
+	name: {
+		type: String,
+		required: true,
 	},
-	
-);
+	lastname: {
+		type: String,
+		required: true,
+	},
+	email: {
+		type: String,
+	},
+	address: {
+		type: String,
+		required: true,
+	},
+
+	phoneNumber: {
+		type: Number,
+		required: true,
+	},
+	date: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "date",
+		},
+	],
+	doctors: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "doctors",
+		},
+	],
+	services: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "services",
+		},
+	],
+});
 
 const PatientModel = model("patients", PatientSchema);
 export default PatientModel;

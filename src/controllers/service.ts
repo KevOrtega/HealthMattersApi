@@ -35,7 +35,7 @@ const getServices = async (req: Request, res: Response) => {
 				  }
 				: {},
 			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
-		); 
+		);
 
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))

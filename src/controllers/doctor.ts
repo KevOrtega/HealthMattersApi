@@ -55,10 +55,4 @@ const assignDoctor = async (req: Request, res: Response) => {
 	}
 };
 
-  
-  
-  
-  
-  
-
 export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };
