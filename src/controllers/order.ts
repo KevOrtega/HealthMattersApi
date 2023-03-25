@@ -8,11 +8,10 @@ interface RequestExt extends Request {
 
 const getDoctors = async (req: RequestExt, res: Response) => {
 	try {
-
 		res.send({
-			data: 'Solo sesion activa. JWT valido.',
-			user: req.user
-		})
+			data: "Solo sesion activa. JWT valido.",
+			user: req.user,
+		});
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}

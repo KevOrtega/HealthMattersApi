@@ -36,7 +36,6 @@ const deleteDate = async (req: Request, res: Response) => {
 		const { _id } = req.params;
 		await DateModel.deleteOne({ _id });
 		res.status(200).json("successfully deleted");
-
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -44,7 +43,6 @@ const deleteDate = async (req: Request, res: Response) => {
 
 const assignDate = async (req: Request, res: Response) => {
 	try {
-	
 		const { _id } = req.params;
 		const { patients } = req.body;
 		const updated = await DateModel.findByIdAndUpdate(_id, { $push: { patients: patients } });

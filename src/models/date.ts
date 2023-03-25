@@ -13,7 +13,7 @@ const DateSchema = new Schema<Date>({
 	},
 	time: {
 		type: String,
-		required: true
+		required: true,
 	},
 	patients: [
 		{

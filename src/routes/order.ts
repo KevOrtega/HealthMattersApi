@@ -3,9 +3,8 @@ import { getDoctors } from "../controllers/order";
 import { checkJwt } from "../middlewares/session";
 
 //solo pueden acceder las personas con sesion activa con JWT valido
-const router = Router()
+const router = Router();
 
+router.get("/", checkJwt, getDoctors);
 
-router.get('/', checkJwt, getDoctors)
-
-export { router }
+export { router };
