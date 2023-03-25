@@ -37,7 +37,7 @@ const deletePatient = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		await PatientModel.deleteOne({ _id });
-		res.status(200).json('successfully deleted')
+		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}

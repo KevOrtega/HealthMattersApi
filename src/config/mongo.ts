@@ -1,8 +1,10 @@
-import "dotenv/config"
-import { connect } from "mongoose"
+import dotenv from "dotenv";
+
+dotenv.config();
+import { connect } from "mongoose";
 
 async function dbConnect(): Promise<void> {
-    await connect('mongodb+srv://healthmatters:healthmatters@healthmatters.rabrrsd.mongodb.net/healthmatters')
+	await connect(`${process.env.MONGODB_URI}`);
 }
 
 export default dbConnect;

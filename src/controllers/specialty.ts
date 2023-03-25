@@ -1,23 +1,37 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
 import SpecialtyModel from "../models/specialty";
+import specialities from "../data";
+import dbConnect from "../config/mongo";
 
 const getSpecialty = async (req: Request, res: Response) => {
 	try {
-		const specialities = await SpecialtyModel.find().populate("name");
+		const specialities = await SpecialtyModel.find().populate("name", "specialties");
 		res.json(specialities);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
+// const postSpecialty = async (req: Request, res: Response) => {
+// 	try {
+// 		//  const specialities = await data
+// 		const { name } = req.body;
+// 		const postSpecialities = new SpecialtyModel({ name });
+// 		const saveSpecialities = await postSpecialities.save();
+// 		res.status(200).send(saveSpecialities);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
+
 const postSpecialty = async (req: Request, res: Response) => {
 	try {
-		//  const specialities = await data
-		const { name } = req.body;
-		const postSpecialities = new SpecialtyModel({ name });
-		const saveSpecialities = await postSpecialities.save();
-		res.status(200).send(saveSpecialities);
+		await dbConnect();
+		const specialties = specialities;
+		const result = await SpecialtyModel.insertMany(specialties);
+		console.log(specialties);
+		res.json(result);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -26,7 +40,7 @@ const postSpecialty = async (req: Request, res: Response) => {
 const detailSpecialty = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const specialtyId = await SpecialtyModel.findOne({ _id: id });
+		const specialtyId = await SpecialtyModel.findById(id);
 		res.send(specialtyId);
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -55,4 +69,3 @@ const assignSpecialty = async (req: Request, res: Response) => {
 };
 
 export { getSpecialty, postSpecialty, assignSpecialty, detailSpecialty, deleteSpecialty };
-
