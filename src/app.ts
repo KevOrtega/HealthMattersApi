@@ -7,12 +7,11 @@ import routerSpecialties from "./routes/specialty";
 import routerServices from "./routes/service";
 import routerDates from "./routes/date";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
-import { getDoctors } from "./controllers/order";
+import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
 
+require("dotenv").config();
 
-require('dotenv').config();
- 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
@@ -25,7 +24,7 @@ app.use("/services", routerServices);
 app.use("/dates", routerDates);
 app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
-app.use('/order', checkJwt, getDoctors)
+app.use("/order", checkJwt, order);
 
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

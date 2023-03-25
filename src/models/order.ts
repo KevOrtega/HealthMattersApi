@@ -10,11 +10,11 @@ const OrderSchema = new Schema<User>({
 	},
 	email: {
 		type: String,
-		unique: true
+		unique: true,
 	},
 	description: {
-		type: String
-	}
+		type: String,
+	},
 });
 
 const OrderModel = model("order", OrderSchema);

@@ -10,11 +10,11 @@ const UserSchema = new Schema<User>({
 	},
 	email: {
 		type: String,
-		unique: true
+		unique: true,
 	},
 	description: {
-		type: String
-	}
+		type: String,
+	},
 });
 
 const UserModel = model("users", UserSchema);
