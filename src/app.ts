@@ -11,7 +11,7 @@ import routerDates from "./routes/date";
 import checkoutRouter from "./routes/checkout";
 import handleNotifications from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
-import { getDoctors } from "./controllers/order";
+import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
 
 config();
@@ -30,7 +30,7 @@ app.use("/checkout", checkoutRouter);
 app.post("/notifications", handleNotifications);
 app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
-app.use("/order", checkJwt, getDoctors);
+app.use("/order", checkJwt, order);
 
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
