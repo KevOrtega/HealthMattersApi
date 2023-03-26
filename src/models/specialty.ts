@@ -1,6 +1,7 @@
-import { Schema, model, Types, Model } from "mongoose";
+import { Schema, model, Types, Model, ObjectId } from "mongoose";
 
 export interface Specialty {
+	_id: ObjectId;
 	name: string;
 	doctors: Types.ObjectId[] | string[];
 	rating: number;
@@ -17,11 +18,7 @@ const SpecialtySchema = new Schema<Specialty>({
 			ref: "doctors",
 		},
 	],
-	rating: {
-		type: Number,
-		required: true,
-	},
 });
 
-const SpecialtyModel: Model<Specialty> = model("specialties", SpecialtySchema);
+const SpecialtyModel = model("specialties", SpecialtySchema);
 export default SpecialtyModel;
