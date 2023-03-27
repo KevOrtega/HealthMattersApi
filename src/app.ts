@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import db from "./config/mongo";
 import mercadopago from "mercadopago";
-import { config } from "dotenv";
 import routerDoctors from "./routes/doctor";
 import routerPatients from "./routes/patient.routes";
 import routerSpecialties from "./routes/specialty";
@@ -13,9 +12,11 @@ import handleNotifications from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
 import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
-
+import { config } from "dotenv";
 config();
-const PORT = process.env.PORT;
+
+const PORT = process.env.PORT || 3001;
+
 const app = express();
 
 app.use(cors());

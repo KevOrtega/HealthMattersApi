@@ -2,62 +2,67 @@ import { Request, Response } from "express";
 import PatientModel from "../models/patient";
 import ServiceModel, { Services } from "../models/services";
 
-type getServicesQueries = {
-	specialties?: string;
-	search?: string;
-	order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC" | "alphabeticallyASC" | "alphabeticallyDESC";
-	page?: string;
+type GetServicesQueries = {
+    specialties?: string;
+    search?: string;
+    order?: "priceASC" | "priceDESC" | "ratingASC" | "ratingDESC" | "alphabeticallyASC" | "alphabeticallyDESC";
+    page?: string;
 };
 
 const getServices = async (req: Request, res: Response) => {
-	try {
-		const { specialties, search, order, page }: getServicesQueries = req.query;
+    try {
+        const { specialties, search, order, page }: GetServicesQueries = req.query;
 
-		const servicesPerPage = 6;
-		const pageNumber = parseInt(page as string, 10) || 1;
+        const servicesPerPage = 6;
+        const pageNumber = parseInt(page as string, 10) || 1;
 
-		const orders_methods = {
-			alphabeticallyASC: (arr: Services[]) => arr.sort((a, b) => a.name.localeCompare(b.name)),
-			alphabeticallyDESC: (arr: Services[]) => arr.sort((a, b) => b.name.localeCompare(a.name)),
-			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
-			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
-			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
-		};
+        const orders_methods = {
+            alphabeticallyASC: (arr: Services[]) => arr.sort((a, b) => a.name.localeCompare(b.name)),
+            alphabeticallyDESC: (arr: Services[]) => arr.sort((a, b) => b.name.localeCompare(a.name)),
+            priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
+            priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+            ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
+            ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
+        };
 
-		const specialtiesArray: string[] | undefined = specialties ? specialties.split(",") : undefined;
+        const specialtiesArray: string[] | undefined = specialties ? specialties.split(",") : undefined;
 
-		const search_params = Object.assign(
-			{},
-			search
-				? {
-						name: new RegExp(`^${search}$`, "i"),
-				  }
-				: {},
-			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
-		);
-         console.log(specialtiesArray);
-		 
-		const services = order
-			? orders_methods[order](await ServiceModel.find(search_params))
-			: await ServiceModel.find(search_params);
-				  console.log(services);
-				  console.log(search_params);
-				  
-				  
-		const servicesCount = services.length;
-		const servicesToSkip = servicesPerPage * (pageNumber - 1);
+        const search_params = {
+            $or: [
+                {
+                    specialties: specialtiesArray && {
+                        $in: specialtiesArray,
+                        $regex: new RegExp(`^${search}`, "i"),
+                        $options: "i",
+                    },
+                },
+                {
+                    name: {
+                        $regex: new RegExp(`^${search}`, "i"),
+                        $options: "i",
+                    },
+                },
+            ],
+        };
 
-		res.status(200).send({
-			services: services.slice(servicesToSkip, servicesToSkip + servicesPerPage),
-			currentPage: pageNumber,
-			pages: Math.ceil(servicesCount / servicesPerPage),
-			count: servicesCount,
-		});
-	} catch (error) {
-		res.status(404).send({ message: "Ocurrió un error al obtener los servicios.", error });
-	}
+        const services = order
+            ? orders_methods[order](await ServiceModel.find(search_params))
+            : await ServiceModel.find(search_params);
+
+        const servicesCount = services.length;
+        const servicesToSkip = servicesPerPage * (pageNumber - 1);
+
+        res.status(200).send({
+            services: services.slice(servicesToSkip, servicesToSkip + servicesPerPage),
+            currentPage: pageNumber,
+            pages: Math.ceil(servicesCount / servicesPerPage),
+            count: servicesCount,
+        });
+    } catch (error) {
+        res.status(404).send({ message: "An error occurred while obtaining the services.", error });
+    }
 };
+
 
 const postServices = async (req: Request, res: Response) => {
 	try {

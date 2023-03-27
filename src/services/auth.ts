@@ -3,13 +3,19 @@ import { User } from "../interface/user.interface";
 import UserModel from "../models/auth";
 import { encrypt, verified } from "../utils/bcrypt";
 import { generateToken } from "../utils/jw.handle";
+import jwt from "jsonwebtoken"
 
-const registerNewUser = async ({ email, password, name }: User) => {
+const JWT_SECRET = process.env.JWT_SECRET || "token.01010101";
+
+const registerNewUser = async ({ email, password, name, registration}: User) => {
 	const checkIs = await UserModel.findOne({ email });
-	if (checkIs) return "Already exists";
+	if (checkIs) {
+		throw new Error("Email already exists");
+	}
 	const passHash = await encrypt(password);
-	const registerNewUser = await UserModel.create({ email, password: passHash, name });
-	return registerNewUser;
+	const registerNewUser = await UserModel.create({ email, password: passHash, name, registration });
+	const token = jwt.sign({email: registerNewUser.email }, JWT_SECRET, {expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 + 24 * 30} )
+	return{user: registerNewUser, token}
 };
 
 const loginUser = async ({ email, password }: Auth) => {
