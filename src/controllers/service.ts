@@ -31,7 +31,7 @@ const getServices = async (req: Request, res: Response) => {
 			{},
 			search
 				? {
-						name: new RegExp(`^${search}$`, "i"),
+						name: new RegExp(search, "i"),
 				  }
 				: {},
 			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
