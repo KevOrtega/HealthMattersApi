@@ -22,4 +22,6 @@ const loginCtrl = async ({ body }: Request, res: Response) => {
 	}
 };
 
+
+
 export { registerCtrl, loginCtrl };

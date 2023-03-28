@@ -13,6 +13,7 @@ import { loginCtrl, registerCtrl } from "./controllers/auth";
 import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
 import { config } from "dotenv";
+import { googleLoginController } from "./googleAuth/googleAuth";
 config();
 
 const PORT = process.env.PORT || 3001;
@@ -32,6 +33,6 @@ app.post("/notifications", handleNotifications);
 app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
 app.use("/order", checkJwt, order);
-
+app.use("/auth/google", googleLoginController)
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
