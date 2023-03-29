@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import db from "./config/mongo";
-import { config } from "dotenv";
 import routerDoctors from "./routes/doctor";
 import routerPatients from "./routes/patient.routes";
 import routerSpecialties from "./routes/specialty";
@@ -12,9 +11,12 @@ import handleNotifications from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
 import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
-
+import { config } from "dotenv";
+import { googleLoginController } from "./googleAuth/googleAuth";
 config();
-const PORT = process.env.PORT;
+
+const PORT = process.env.PORT || 3001;
+
 const app = express();
 
 app.use(cors());
@@ -30,6 +32,7 @@ app.post("/notifications", handleNotifications);
 app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
 app.use("/order", checkJwt, order);
+app.use("/auth/google", googleLoginController)
 
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
