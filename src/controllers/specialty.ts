@@ -13,17 +13,6 @@ const getSpecialty = async (req: Request, res: Response) => {
 	}
 };
 
-// const postSpecialty = async (req: Request, res: Response) => {
-// 	try {
-// 		//  const specialities = await data
-// 		const { name } = req.body;
-// 		const postSpecialities = new SpecialtyModel({ name });
-// 		const saveSpecialities = await postSpecialities.save();
-// 		res.status(200).send(saveSpecialities);
-// 	} catch (error) {
-// 		res.status(404).send({ message: error });
-// 	}
-// };
 
 const postSpecialty = async (req: Request, res: Response) => {
 	try {

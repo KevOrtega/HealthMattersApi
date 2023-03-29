@@ -34,5 +34,6 @@ app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
 app.use("/order", checkJwt, order);
 app.use("/auth/google", googleLoginController)
+
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

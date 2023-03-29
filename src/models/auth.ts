@@ -15,7 +15,7 @@ const UserSchema = new Schema<User>({
 	description: {
 		type: String,
 	},
-	registration: {
+	medicalLicense: {
 		type: String
 	}
 });

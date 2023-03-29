@@ -7,13 +7,13 @@ import jwt from "jsonwebtoken"
 
 const JWT_SECRET = process.env.JWT_SECRET || "token.01010101";
 
-const registerNewUser = async ({ email, password, name, registration}: User) => {
+const registerNewUser = async ({ email, password, name, medicalLicense}: User) => {
 	const checkIs = await UserModel.findOne({ email });
 	if (checkIs) {
 		throw new Error("Email already exists");
 	}
 	const passHash = await encrypt(password);
-	const registerNewUser = await UserModel.create({ email, password: passHash, name, registration });
+	const registerNewUser = await UserModel.create({ email, password: passHash, name, medicalLicense });
 	const token = jwt.sign({email: registerNewUser.email }, JWT_SECRET, {expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 + 24 * 30} )
 	return{user: registerNewUser, token}
 };
