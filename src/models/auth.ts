@@ -17,7 +17,12 @@ const UserSchema = new Schema<User>({
 	},
 	medicalLicense: {
 		type: String
-	}
+	},
+
+	userRef: { // Agregar la propiedad userRef al esquema
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	  }
 });
 
 const UserModel = model("users", UserSchema);

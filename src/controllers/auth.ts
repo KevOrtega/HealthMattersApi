@@ -4,9 +4,9 @@ import { registerNewUser, loginUser } from "../services/auth";
 const registerCtrl = async ({ body }: Request, res: Response) => {
 	try {
 		const responseUser = await registerNewUser(body);
-		res.send(responseUser);
+		res.status(200).send(responseUser);
 	} catch (error) {
-		res.status(400).json("Email already exists")
+		res.status(400).send("Email already exists")
 	}
 };
 
