@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import db from "./config/mongo";
-import mercadopago from "mercadopago";
 import routerDoctors from "./routes/doctor";
 import routerPatients from "./routes/patient.routes";
 import routerSpecialties from "./routes/specialty";

@@ -4,6 +4,7 @@ export interface Specialty {
 	_id: ObjectId;
 	name: string;
 	doctors: Types.ObjectId[] | string[];
+	rating: number;
 }
 
 const SpecialtySchema = new Schema<Specialty>({
