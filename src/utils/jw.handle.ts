@@ -6,12 +6,7 @@ const generateToken = (id: string) => {
 	jwt.sign(
 		{
 			exp: Math.floor(Date.now() / 1000) + 60 * 60 + 24 * 30,
-<<<<<<< HEAD
-			id,
-			
-=======
 			id
->>>>>>> manu
 		}, JWT_SECRET)
 };
 
