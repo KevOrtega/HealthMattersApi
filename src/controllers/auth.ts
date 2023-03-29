@@ -11,8 +11,8 @@ const registerCtrl = async ({ body }: Request, res: Response) => {
 };
 
 const loginCtrl = async ({ body }: Request, res: Response) => {
-	const { email, password, registration } = body;
-	const responseUser = await loginUser({ email, password, registration });
+	const { email, password, medicalLicense } = body;
+	const responseUser = await loginUser({ email, password, medicalLicense });
 
 	if (responseUser === "Password incorrect") {
 		res.status(400);
