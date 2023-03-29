@@ -7,9 +7,8 @@ const generateToken = (id: string) => {
 		{
 			exp: Math.floor(Date.now() / 1000) + 60 * 60 + 24 * 30,
 			id,
-		},
-		JWT_SECRET
-	);
+			
+		}, JWT_SECRET)
 };
 
 const verifyToken = (jwt: string) => {

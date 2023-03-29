@@ -15,6 +15,9 @@ const UserSchema = new Schema<User>({
 	description: {
 		type: String,
 	},
+	medicalLicense: {
+		type: String
+	}
 });
 
 const UserModel = model("users", UserSchema);
