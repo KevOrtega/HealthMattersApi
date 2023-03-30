@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { order } from "../controllers/order";
+import { profilePatient } from "../controllers/profiles";
 import { checkJwt } from "../middlewares/session";
 
 //solo pueden acceder las personas con sesion activa con JWT valido
 const router = Router();
 
-router.get("/", checkJwt, order);
+router.get("/", checkJwt, profilePatient);
 
 export { router };
