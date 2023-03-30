@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import db from "./config/mongo";
+import { config } from "dotenv";
+import mercadopago from "mercadopago";
 import routerDoctors from "./routes/doctor";
 import routerPatients from "./routes/patient.routes";
 import routerSpecialties from "./routes/specialty";
@@ -11,7 +13,6 @@ import handleNotifications from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
 import { order } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
-import { config } from "dotenv";
 import { googleLoginController } from "./googleAuth/googleAuth";
 config();
 
