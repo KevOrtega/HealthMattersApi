@@ -6,7 +6,7 @@ export interface Doctor {
 	email: string;
 	password: string;
 	specialties: Types.ObjectId[] | string;
-	registration: string;
+	medicalLicense: string;
 	phoneNumber: number;
 	patients: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string[];
@@ -44,7 +44,7 @@ const DoctorSchema = new Schema<Doctor>({
 			required: true,
 		},
 	],
-	registration: {
+	medicalLicense: {
 		type: String,
 		required: true,
 	},

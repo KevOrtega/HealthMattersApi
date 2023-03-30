@@ -3,14 +3,57 @@ import { User } from "../interface/user.interface";
 import UserModel from "../models/auth";
 import { encrypt, verified } from "../utils/bcrypt";
 import { generateToken } from "../utils/jw.handle";
+import jwt from "jsonwebtoken"
+import PatientModel from "../models/patient";
+import DoctorModel from "../models/doctor";
+const JWT_SECRET = process.env.JWT_SECRET || "token.01010101";
 
-const registerNewUser = async ({ email, password, name }: User) => {
-	const checkIs = await UserModel.findOne({ email });
-	if (checkIs) return "Already exists";
-	const passHash = await encrypt(password);
-	const registerNewUser = await UserModel.create({ email, password: passHash, name });
-	return registerNewUser;
+const registerNewUser = async ({ email, password, name, medicalLicense }: User) => {
+  const checkIs = await UserModel.findOne({ email });
+  
+  if (checkIs) {
+    throw new Error("Email already exists");
+  }
+  const passHash = await encrypt(password);
+
+  let newUser;
+
+if (medicalLicense) {
+  newUser = await DoctorModel.create({
+    email,
+    password: passHash,
+    name,
+    medicalLicense,
+  });
+} else {
+  newUser = await PatientModel.create({
+    email,
+    password: passHash,
+    name,
+  });
+}
+
+const savedUser = await UserModel.create({
+  email,
+  password: passHash,
+  name,
+  medicalLicense,
+  newUser: medicalLicense ? 'doctor' : 'patient', // Agregar el tipo de usuario en UserModel
+  userRef: newUser._id, // Agregar la referencia al usuario creado (Doctor o Patient)
+});
+
+  
+  const token = jwt.sign(
+    { email: savedUser.email },
+    JWT_SECRET,
+    { expiresIn: Math.floor(Date.now() / 1000) + 60 * 60 + 24 * 30 }
+  );
+  
+  return { user: registerNewUser, token };
 };
+
+
+
 
 const loginUser = async ({ email, password }: Auth) => {
 	const checkIs = await UserModel.findOne({ email });

@@ -2,13 +2,17 @@ import { Request, Response } from "express";
 import { registerNewUser, loginUser } from "../services/auth";
 
 const registerCtrl = async ({ body }: Request, res: Response) => {
-	const responseUser = await registerNewUser(body);
-	res.send(responseUser);
+	try {
+		const responseUser = await registerNewUser(body);
+		res.status(200).send(responseUser);
+	} catch (error) {
+		res.status(400).send("Email already exists")
+	}
 };
 
 const loginCtrl = async ({ body }: Request, res: Response) => {
-	const { email, password } = body;
-	const responseUser = await loginUser({ email, password });
+	const { email, password, medicalLicense } = body;
+	const responseUser = await loginUser({ email, password, medicalLicense });
 
 	if (responseUser === "Password incorrect") {
 		res.status(400);
@@ -17,5 +21,7 @@ const loginCtrl = async ({ body }: Request, res: Response) => {
 		res.send(responseUser);
 	}
 };
+
+
 
 export { registerCtrl, loginCtrl };
