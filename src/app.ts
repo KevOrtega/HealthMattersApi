@@ -6,10 +6,11 @@ import routerPatients from "./routes/patient.routes";
 import routerSpecialties from "./routes/specialty";
 import routerServices from "./routes/service";
 import routerDates from "./routes/date";
+import routerUsers from "./routes/user"
 import checkoutRouter from "./routes/checkout";
 import handleNotifications from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
-import { order } from "./controllers/order";
+import { profileDoctors, profilePatient } from "./controllers/order";
 import { checkJwt } from "./middlewares/session";
 import { config } from "dotenv";
 import { googleLoginController } from "./googleAuth/googleAuth";
@@ -31,8 +32,10 @@ app.use("/checkout", checkoutRouter);
 app.post("/notifications", handleNotifications);
 app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
-app.use("/order", checkJwt, order);
+app.use("/profile/doctor", checkJwt, profileDoctors);
+app.use("/profile/patient", checkJwt, profilePatient);
 app.use("/auth/google", googleLoginController)
+app.use('/users', routerUsers)
 
 db().then(() => console.log("Conexion DB exitosa"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
