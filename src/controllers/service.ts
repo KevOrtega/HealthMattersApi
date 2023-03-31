@@ -36,14 +36,10 @@ const getServices = async (req: Request, res: Response) => {
 				: {},
 			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
 		);
-		console.log(specialtiesArray);
 
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))
 			: await ServiceModel.find(search_params);
-		console.log(services);
-		console.log(search_params);
-
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
@@ -57,8 +53,6 @@ const getServices = async (req: Request, res: Response) => {
 		res.status(404).send({ message: "Ocurrió un error al obtener los servicios.", error });
 	}
 };
-
-
 
 const postServices = async (req: Request, res: Response) => {
 	try {
