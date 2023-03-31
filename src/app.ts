@@ -9,7 +9,7 @@ import routerDates from "./routes/date";
 import routerUsers from "./routes/user";
 import checkoutRouter from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
-import { profileDoctors, profilePatient } from "./controllers/order";
+import { profileDoctors, profilePatient } from "./controllers/profiles"
 import { checkJwt } from "./middlewares/session";
 import { config } from "dotenv";
 import { googleLoginController } from "./googleAuth/googleAuth";
