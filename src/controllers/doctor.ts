@@ -13,8 +13,13 @@ const getDoctors = async (req: Request, res: Response) => {
 
 const postDoctors = async (req: Request, res: Response) => {
 	try {
+<<<<<<< HEAD
 		const { name, lastname, specialties, phoneNumber, medicalLicense, email, password, services } = req.body;
 		const newDoctor = new DoctorModel({ name, lastname, specialties, services, phoneNumber, medicalLicense, email, password });
+=======
+		const { name, lastname, specialties, phoneNumber, medicalLicense, email, password } = req.body;
+		const newDoctor = new DoctorModel({ name, lastname, specialties, phoneNumber, medicalLicense, email });
+>>>>>>> 2d38763b2dbb108fef4822b4642c7f3af066db57
 		const savedDoctor = await newDoctor.save();
 		res.status(201).json(savedDoctor);
 	} catch (error) {

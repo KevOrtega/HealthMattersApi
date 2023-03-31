@@ -59,6 +59,7 @@ const getServices = async (req: Request, res: Response) => {
 };
 
 
+
 const postServices = async (req: Request, res: Response) => {
 	try {
 		const { name, description, price, availability, specialties, rating, doctor } = req.body;
