@@ -3,7 +3,9 @@ import { User } from "../interface/user.interface";
 import UserModel from "../models/auth";
 import { encrypt, verified } from "../utils/bcrypt";
 import { generateToken } from "../utils/jw.handle";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+
+
 const JWT_SECRET = process.env.JWT_SECRET || "token.01010101";
 
 
@@ -22,9 +24,6 @@ const registerNewUser = async ({ email, password, name, medicalLicense }: User) 
   const token = jwt.sign({ email: newUser.email }, JWT_SECRET, { expiresIn: "60d" }); 
   return { user: newUser, token };
 };
-
-
-
 
 const loginUser = async ({ email, password }: Auth) => {
 	const checkIs = await UserModel.findOne({ email });
