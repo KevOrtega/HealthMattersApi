@@ -34,6 +34,6 @@ app.use("/auth/login", loginCtrl);
 app.use("/patients/profile", checkJwt, profilePatient);
 app.use("/doctors/profile", checkJwt, profileDoctor);
 app.use("/auth/google", googleLoginController)
-
+app.use('/logout', )
 db().then(() => console.log("Database connection successful"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
