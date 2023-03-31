@@ -5,10 +5,10 @@ interface RequestExt extends Request {
 	user?: string | JwtPayload;
 }
 
-const profileDoctors = async (req: RequestExt, res: Response) => {
+const profileDoctor = async (req: RequestExt, res: Response) => {
 	try {
 		res.send({
-			data: "It's okay, only Doctors with valid JWT",
+			data: "Only doctors with valid JWT",
 			user: req.user,
 		});
 	} catch (error) {
@@ -19,7 +19,7 @@ const profileDoctors = async (req: RequestExt, res: Response) => {
 const profilePatient = async (req: RequestExt, res: Response) => {
 	try {
 		res.send({
-			data: "It's okay, only Patients with valid JWT",
+			data: "Only patients with valid JWT",
 			user: req.user,
 		});
 	} catch (error) {
@@ -27,4 +27,5 @@ const profilePatient = async (req: RequestExt, res: Response) => {
 	}
 };
 
-export { profileDoctors, profilePatient };
+
+export { profileDoctor, profilePatient };
