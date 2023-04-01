@@ -3,8 +3,10 @@ import mongoose, { Schema, Types, model, Model, ObjectId } from "mongoose";
 export interface Services {
 	name: string;
 	description: string;
-	price: number;
-	availability: string;
+	prices: {
+		atHome?: number;
+		atConsultory?: number;
+	};
 	specialties: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string;
 	doctor: Types.ObjectId[] | string;
@@ -21,14 +23,17 @@ const ServiceSchema = new Schema<Services>({
 		required: true,
 	},
 
-	price: {
-		type: Number,
-		required: true,
+	prices: {
+		//type: Object,
+		//required: true,
+		atHome: {
+			type: Number,
+		},
+		atConsultory: {
+			type: Number,
+		},
 	},
-	availability: {
-		type: String,
-		required: true,
-	},
+
 	specialties: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
