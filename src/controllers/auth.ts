@@ -20,7 +20,7 @@ const registerCtrl = async (req: Request, res: Response): Promise<void> => {
 
 const loginCtrl = async ({ body }: Request, res: Response) => {
 	const { email, password, medicalLicense } = body;
-	const user = await loginUser({ email, password, medicalLicense });
+	const user = await loginUser({ email, password });
 
 	if (user === "Password incorrect") {
 		res.status(400);

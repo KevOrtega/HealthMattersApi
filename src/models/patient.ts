@@ -9,6 +9,7 @@ export interface Patient {
 	date: Types.ObjectId[] | string;
 	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
+	password: string;
 }
 
 const PatientSchema = new Schema<Patient>({
@@ -50,6 +51,10 @@ const PatientSchema = new Schema<Patient>({
 			ref: "services",
 		},
 	],
+	password: {
+		type: String,
+		required: true
+	}
 });
 
 const PatientModel = model("patients", PatientSchema);
