@@ -3,8 +3,8 @@ import UserModel from "../models/auth";
 
 const getUsers = async (req: Request, res: Response) => {
 	try {
-		const allusers = await UserModel.find();
-		res.status(200).send(allusers);
+		const allUsers = await UserModel.find();
+		res.status(200).send(allUsers);
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}

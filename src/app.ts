@@ -35,7 +35,6 @@ app.use("/profile/doctor", checkJwt, profileDoctors);
 app.use("/profile/patient", checkJwt, profilePatient);
 app.use("/auth/google", googleLoginController);
 app.use("/logout", logOut);
-
 app.use("/users", routerUsers);
 
 db().then(() => console.log("Conexion DB exitosa"));
