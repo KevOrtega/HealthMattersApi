@@ -1,5 +1,4 @@
-import mongoose, { Schema, Types, Model, model } from "mongoose";
-import { Date } from "./date";
+import { Schema, Types, model } from "mongoose";
 
 export interface Patient {
 	name: string;

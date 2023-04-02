@@ -5,7 +5,7 @@ interface RequestExt extends Request {
 	user?: string | JwtPayload;
 }
 
-const profileDoctor = async (req: RequestExt, res: Response) => {
+const profileDoctors = async (req: RequestExt, res: Response) => {
 	try {
 		res.send({
 			data: "Only doctors with valid JWT",
@@ -28,4 +28,4 @@ const profilePatient = async (req: RequestExt, res: Response) => {
 };
 
 
-export { profileDoctor, profilePatient };
+export { profileDoctors, profilePatient };
