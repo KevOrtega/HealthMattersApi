@@ -16,7 +16,7 @@ const UserSchema = new Schema<User>({
 		type: String,
 	},
 	medicalLicense: {
-		type: String
+		type: String,
 	},
 });
 

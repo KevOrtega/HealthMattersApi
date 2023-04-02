@@ -4,8 +4,14 @@ import ServiceModel from "../models/services";
 
 const getPatientList = async (req: Request, res: Response) => {
 	try {
-		const allPatients = await PatientModel.find({});
-		res.send(allPatients);
+		const allPatients = await PatientModel.find().populate("doctor");
+
+		const activePatients = allPatients.filter((patient: { deleted: boolean }) => !patient.deleted); // filtrar solo los pacientes activos
+		const count = activePatients.length; // contar los activos
+
+		console.log(count);
+
+		res.status(200).send({ count, data: activePatients }); // enviar el conteo y los pacientes activos
 	} catch (error) {
 		res.status(404).json({ message: error });
 	}
@@ -36,14 +42,14 @@ const getPatient = async (req: Request, res: Response) => {
 const deletePatient = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
-		await PatientModel.deleteOne({ _id });
+		await PatientModel.findByIdAndUpdate(_id, { deleted: true }); // actualiza el campo deleted a true
 		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
-const assignPatient = async (req: Request, res: Response) => {
+const putPatient = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		const { services } = req.body;
@@ -54,4 +60,4 @@ const assignPatient = async (req: Request, res: Response) => {
 	}
 };
 
-export { postPatient, getPatient, getPatientList, assignPatient, deletePatient };
+export { postPatient, getPatient, getPatientList, putPatient, deletePatient };

@@ -7,5 +7,4 @@ const router = Router();
 router.get("/", checkJwt, profilePatient);
 router.get("/", checkJwt, profileDoctors);
 
-
 export { router };

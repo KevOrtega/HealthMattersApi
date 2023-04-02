@@ -3,20 +3,18 @@ import { registerNewUser, loginUser } from "../services/auth";
 
 const registerCtrl = async (req: Request, res: Response): Promise<void> => {
 	try {
-	  const body = req.body;
-	  const responseUser = await registerNewUser(body);
-	  res.status(200).send(responseUser);
+		const body = req.body;
+		const responseUser = await registerNewUser(body);
+		res.status(200).send(responseUser);
 	} catch (error) {
-	  if (`${error}` === "Email already exists") {
-		res.status(400).send("Email already exists");
-	  } else {
-		console.error(error);
-		res.status(500).send("Internal Server Error");
-	  }
+		if (`${error}` === "Email already exists") {
+			res.status(400).send("Email already exists");
+		} else {
+			console.error(error);
+			res.status(500).send("Internal Server Error");
+		}
 	}
-  };
-  
-  
+};
 
 const loginCtrl = async ({ body }: Request, res: Response) => {
 	const { email, password, medicalLicense } = body;
@@ -29,7 +27,5 @@ const loginCtrl = async ({ body }: Request, res: Response) => {
 		res.send(user);
 	}
 };
-
-
 
 export { registerCtrl, loginCtrl };

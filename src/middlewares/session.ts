@@ -18,7 +18,7 @@ const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {
 			res.send("Invalid JWT");
 		} else {
 			req.user = isUser;
-			req.user = medicalLicense
+			req.user = medicalLicense;
 			console.log({ jwtByUser });
 			next();
 		}
