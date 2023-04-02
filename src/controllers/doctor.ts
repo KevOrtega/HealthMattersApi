@@ -5,7 +5,7 @@ import SpecialtyModel from "../models/specialty";
 const getDoctors = async (req: Request, res: Response) => {
 	try {
 		const allDoctors = await DoctorModel.find().populate("specialties");
-		const activeDoctors = allDoctors.filter((doctor) => !doctor.deleted); // filtrar solo los doctores activos
+		const activeDoctors = allDoctors.filter((doctor: { deleted: boolean }) => !doctor.deleted); // filtrar solo los doctores activos
 		const count = activeDoctors.length; // contar doctores activos
 
 		console.log(count);
