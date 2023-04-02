@@ -37,10 +37,30 @@ const getDoctorsDetail = async (req: Request, res: Response) => {
 	}
 };
 
-const deleteDoctor = async (req: Request, res: Response) => {
+const deleteLogDoctor = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		await DoctorModel.findByIdAndUpdate(_id, { deleted: true }); // actualiza el campo deleted a true
+		res.status(200).json("successfully deleted");
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
+const undeleteDoctor = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		await DoctorModel.findByIdAndUpdate(_id, { deleted: false });
+		res.status(200).json("successfully undeleted");
+	} catch (error) {
+		res.status(404).send({ message: error });
+	}
+};
+
+const deleteDoctor = async (req: Request, res: Response) => {
+	try {
+		const { _id } = req.params;
+		await DoctorModel.findOneAndDelete({ _id });
 		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -60,4 +80,4 @@ const assignDoctor = async (req: Request, res: Response) => {
 	}
 };
 
-export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };
+export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor, deleteLogDoctor, undeleteDoctor };
