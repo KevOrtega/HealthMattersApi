@@ -9,6 +9,7 @@ export interface Patient {
 	date: Types.ObjectId[] | string;
 	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
+	deleted: boolean;
 	password: string;
 }
 
@@ -28,7 +29,10 @@ const PatientSchema = new Schema<Patient>({
 		type: String,
 		required: true,
 	},
-
+	password: {
+		type: String,
+		required: true,
+	},
 	phoneNumber: {
 		type: Number,
 		required: true,
@@ -51,10 +55,10 @@ const PatientSchema = new Schema<Patient>({
 			ref: "services",
 		},
 	],
-	password: {
-		type: String,
-		required: true
-	}
+	deleted: {
+		type: Boolean,
+		default: false, // por defecto, el paciente no está eliminado
+	},
 });
 
 const PatientModel = model("patients", PatientSchema);

@@ -28,8 +28,7 @@ declare global {
 	} else {
 	  return res.status(403).send('User is not a doctor');
 	}
-  };
-  
+};
 
   declare global {
 	namespace Express {
@@ -56,6 +55,5 @@ declare global {
 	};
 	
   
-
 
 export { profileDoctors, profilePatient };

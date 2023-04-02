@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, model, Model} from "mongoose";
+import mongoose, { Schema, Types, model, Model } from "mongoose";
 
 export interface Services {
 	name: string;
