@@ -12,6 +12,7 @@ export interface Doctor {
 	date: Types.ObjectId[] | string[];
 	services: Types.ObjectId[] | string[];
 	image: string;
+	deleted: boolean; // nuevo campo para el borrado lógico
 }
 
 const DoctorSchema = new Schema<Doctor>({
@@ -68,6 +69,10 @@ const DoctorSchema = new Schema<Doctor>({
 	},
 	password: {
 		type: String,
+	},
+	deleted: {
+		type: Boolean,
+		default: false,
 	},
 });
 
