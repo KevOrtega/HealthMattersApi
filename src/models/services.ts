@@ -9,6 +9,7 @@ export interface Services {
 	date: Types.ObjectId[] | string;
 	doctor: Types.ObjectId[] | string;
 	rating: number;
+	image: string;
 }
 
 const ServiceSchema = new Schema<Services>({
@@ -20,7 +21,10 @@ const ServiceSchema = new Schema<Services>({
 		type: String,
 		required: true,
 	},
-
+	image: {
+		type: String,
+		required: true,
+	},
 	price: {
 		type: Number,
 		required: true,

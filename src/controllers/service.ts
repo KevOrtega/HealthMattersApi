@@ -57,6 +57,7 @@ const getServices = async (req: Request, res: Response) => {
 const postServices = async (req: Request, res: Response) => {
 	try {
 		const { name, description, price, availability, specialties, rating, doctor, image } = req.body;
+		
 		const newService = new ServiceModel({ name, description, price, availability, rating, doctor, image });
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
