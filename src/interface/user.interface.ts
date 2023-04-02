@@ -8,4 +8,6 @@ export interface User extends Auth {
 	specialties: string;
 	phoneNumber: number;
 	password: string;
+	isDoctor?: boolean;
+	address: string;
 }

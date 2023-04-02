@@ -10,6 +10,7 @@ export interface Patient {
 	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
 	deleted: boolean;
+	password: string;
 }
 
 const PatientSchema = new Schema<Patient>({
@@ -28,7 +29,10 @@ const PatientSchema = new Schema<Patient>({
 		type: String,
 		required: true,
 	},
-
+	password: {
+		type: String,
+		required: true,
+	},
 	phoneNumber: {
 		type: Number,
 		required: true,

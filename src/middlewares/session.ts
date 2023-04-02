@@ -4,7 +4,7 @@ import { verifyToken } from "../utils/jw.handle";
 
 interface RequestExt extends Request {
 	user?: string | JwtPayload;
-	medicalLicense?: string | JwtPayload;
+	isDoctor?: boolean
 }
 
 const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {
@@ -12,13 +12,11 @@ const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {
 		const jwtByUser = req.headers.authorization || "";
 		const jwt = jwtByUser.split(" ").pop();
 		const isUser = verifyToken(`${jwt}`);
-		const medicalLicense = verifyToken(`${jwt}`);
 		if (!isUser) {
 			res.status(400);
 			res.send("Invalid JWT");
 		} else {
 			req.user = isUser;
-			req.user = medicalLicense;
 			console.log({ jwtByUser });
 			next();
 		}
