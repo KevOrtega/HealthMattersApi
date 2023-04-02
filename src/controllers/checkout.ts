@@ -29,7 +29,7 @@ export async function buyServices(req: Request, res: Response) {
 				title: service?.name,
 				description: service?.description,
 				quantity: 1,
-				unit_price: service?.price,
+				unit_price: 0,
 			})),
 			binary_mode: true,
 			payer: patient as PreferencePayer,
