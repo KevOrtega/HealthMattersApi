@@ -2,34 +2,29 @@ import { CreatePreferencePayload, PreferencePayer } from "mercadopago/models/pre
 import { Request, Response } from "express";
 import ServiceModel from "../models/services";
 import { mercadopago } from "../utils/payments";
+import { buyServiceRequest } from "../interface/service.interface";
 
 export async function buyServices(req: Request, res: Response) {
 	try {
-		const { id: services_id } = req.params;
-		const services_id_arr = services_id.split(",");
-		const services = await Promise.all(services_id_arr.map((id) => ServiceModel.findById(id)));
+		const { services, patient, path_success, path_failure, path_pending }: buyServiceRequest = req.body;
+		const services_found = await Promise.all(
+			services.map(async ({ id, price, date }) => {
+				const service = await ServiceModel.findById(id);
 
-		const {
-			patient,
-			path_success,
-			path_failure,
-			path_pending,
-		}: {
-			patient: { name: string; surname: string; email: string };
-			path_success?: string;
-			path_failure?: string;
-			path_pending?: string;
-		} = req.body;
+				return { ...service, _id: id, price, date };
+			})
+		);
 
-		if (!services.length || !patient) throw new Error("serviceId and patient are required");
+		if (!services.length || !patient)
+			throw new Error("services (id, price and date) and patient (name, surname, email) are required");
 
 		const preference: CreatePreferencePayload = {
-			items: services.map((service) => ({
+			items: services_found.map((service) => ({
 				id: service?._id.toString(),
 				title: service?.name,
 				description: service?.description,
 				quantity: 1,
-				unit_price: 0,
+				unit_price: service.price,
 			})),
 			binary_mode: true,
 			payer: patient as PreferencePayer,
