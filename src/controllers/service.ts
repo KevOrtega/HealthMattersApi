@@ -19,8 +19,10 @@ const getServices = async (req: Request, res: Response) => {
 		const orders_methods = {
 			alphabeticallyASC: (arr: Services[]) => arr.sort((a, b) => a.name.localeCompare(b.name)),
 			alphabeticallyDESC: (arr: Services[]) => arr.sort((a, b) => b.name.localeCompare(a.name)),
-			priceASC: (arr: Services[]) => arr.sort((a, b) => a.price - b.price),
-			priceDESC: (arr: Services[]) => arr.sort((a, b) => b.price - a.price),
+			priceASC: (arr: Services[]) =>
+				arr.sort((a, b) => (a.prices?.atConsultory ?? a.prices?.atHome ?? 0) - (b.prices?.atConsultory ?? b.prices?.atHome ?? 0)),
+			priceDESC: (arr: Services[]) =>
+				arr.sort((a, b) => (b.prices?.atConsultory ?? b.prices?.atHome ?? 0) - (a.prices?.atConsultory ?? a.prices?.atHome ?? 0)),
 			ratingASC: (arr: Services[]) => arr.sort((a, b) => a.rating - b.rating),
 			ratingDESC: (arr: Services[]) => arr.sort((a, b) => b.rating - a.rating),
 		};
@@ -56,9 +58,14 @@ const getServices = async (req: Request, res: Response) => {
 
 const postServices = async (req: Request, res: Response) => {
 	try {
+<<<<<<< HEAD
 		const { name, description, price, availability, specialties, rating, doctor, image } = req.body;
 		
 		const newService = new ServiceModel({ name, description, price, availability, rating, doctor, image });
+=======
+		const { name, description, prices, specialties, doctor } = req.body;
+		const newService = new ServiceModel({ name, description, prices, rating: 1, doctor });
+>>>>>>> development
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
 		res.status(200).json(saveService);

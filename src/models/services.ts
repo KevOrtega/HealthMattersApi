@@ -1,10 +1,12 @@
-import mongoose, { Schema, Types, model, Model, ObjectId } from "mongoose";
+import mongoose, { Schema, Types, model, Model} from "mongoose";
 
 export interface Services {
 	name: string;
 	description: string;
-	price: number;
-	availability: string;
+	prices: {
+		atHome?: number;
+		atConsultory?: number;
+	};
 	specialties: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string;
 	doctor: Types.ObjectId[] | string;
@@ -21,18 +23,16 @@ const ServiceSchema = new Schema<Services>({
 		type: String,
 		required: true,
 	},
-	image: {
-		type: String,
-		required: true,
+
+	prices: {
+		atHome: {
+			type: Number,
+		},
+		atConsultory: {
+			type: Number,
+		},
 	},
-	price: {
-		type: Number,
-		required: true,
-	},
-	availability: {
-		type: String,
-		required: true,
-	},
+
 	specialties: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
