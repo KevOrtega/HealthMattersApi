@@ -3,10 +3,17 @@ import { JwtPayload } from "jsonwebtoken";
 
 interface RequestExt extends Request {
 	user?: string | JwtPayload;
+	medicalLicense?: string | JwtPayload;
 }
 
-const profileDoctor = async (req: RequestExt, res: Response) => {
+const profileDoctors = async (req: RequestExt, res: Response) => {
 	try {
+		//   const { medicalLicense } = req.user;
+		//   if (!medicalLicense) {
+		// 	return res.status(401).send({ message: "Unauthorized" });
+		//   }
+
+		// Si llega aquí es porque el usuario es un doctor
 		res.send({
 			data: "Only doctors with valid JWT",
 			user: req.user,
@@ -27,5 +34,4 @@ const profilePatient = async (req: RequestExt, res: Response) => {
 	}
 };
 
-
-export { profileDoctor, profilePatient };
+export { profileDoctors, profilePatient };

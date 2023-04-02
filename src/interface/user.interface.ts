@@ -1,8 +1,11 @@
 import { Auth } from "./auth.interface";
-import { Types } from "mongoose";
 
 export interface User extends Auth {
 	name: string;
 	description: string;
-	userRef: Types.ObjectId | string;
+	medicalLicense?: string;
+	lastname: string;
+	specialties: string;
+	phoneNumber: number;
+	password: string;
 }

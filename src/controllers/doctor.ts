@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
-import SpecialtyModel from "../models/specialty";
 
 const getDoctors = async (req: Request, res: Response) => {
 	try {
@@ -37,7 +36,7 @@ const getDoctorsDetail = async (req: Request, res: Response) => {
 	}
 };
 
-const deleteLogDoctor = async (req: Request, res: Response) => {
+const deleteDoctor = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		await DoctorModel.findByIdAndUpdate(_id, { deleted: true }); // actualiza el campo deleted a true
@@ -47,37 +46,14 @@ const deleteLogDoctor = async (req: Request, res: Response) => {
 	}
 };
 
-const undeleteDoctor = async (req: Request, res: Response) => {
+const putDoctor = async (req: Request, res: Response) => {
 	try {
-		const { _id } = req.params;
-		await DoctorModel.findByIdAndUpdate(_id, { deleted: false });
-		res.status(200).json("successfully undeleted");
+		const { doctorEmail, image } = req.body;
+		await DoctorModel.findOneAndUpdate({ email: doctorEmail }, { image });
+		res.status(200).json("Successfully updated");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
-const deleteDoctor = async (req: Request, res: Response) => {
-	try {
-		const { _id } = req.params;
-		await DoctorModel.findOneAndDelete({ _id });
-		res.status(200).json("successfully deleted");
-	} catch (error) {
-		res.status(404).send({ message: error });
-	}
-};
-
-const assignDoctor = async (req: Request, res: Response) => {
-	try {
-		const { _id } = req.params;
-		const { doctors } = req.body;
-		const updated = await SpecialtyModel.findByIdAndUpdate(_id, { $push: { doctors: doctors } });
-		console.log(updated);
-
-		res.send(`${updated?.name}`);
-	} catch (error) {
-		res.status(404).send({ message: error });
-	}
-};
-
-export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor, deleteLogDoctor, undeleteDoctor };
+export { getDoctors, postDoctors, getDoctorsDetail, putDoctor, deleteDoctor };
