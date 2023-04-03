@@ -10,8 +10,8 @@ export async function buyServices(req: Request, res: Response) {
 		const services_found = await Promise.all(
 			services.map(async ({ id, price, date }) => {
 				const service = await ServiceModel.findById(id);
-
-				return { ...service, _id: id, price, date };
+				if (!service) throw new Error("service with id " + id + "not found");
+				return { _id: id, price, date, name: service.name, description: service.description };
 			})
 		);
 
@@ -20,9 +20,9 @@ export async function buyServices(req: Request, res: Response) {
 
 		const preference: CreatePreferencePayload = {
 			items: services_found.map((service) => ({
-				id: service?._id.toString(),
-				title: service?.name,
-				description: service?.description,
+				id: service._id,
+				title: service.name,
+				description: service.description,
 				quantity: 1,
 				unit_price: service.price,
 			})),
@@ -38,6 +38,6 @@ export async function buyServices(req: Request, res: Response) {
 
 		res.json({ global: init_point });
 	} catch (error) {
-		res.status(300).send(error);
+		res.status(300).send(`${error}`);
 	}
 }
