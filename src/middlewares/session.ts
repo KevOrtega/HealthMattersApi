@@ -4,6 +4,7 @@ import { verifyToken } from "../utils/jw.handle";
 
 interface RequestExt extends Request {
 	user?: string | JwtPayload;
+	isDoctor?: boolean
 }
 
 const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {

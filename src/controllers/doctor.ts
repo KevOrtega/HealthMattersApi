@@ -1,11 +1,15 @@
 import { Request, Response } from "express";
 import DoctorModel from "../models/doctor";
-import SpecialtyModel from "../models/specialty";
 
 const getDoctors = async (req: Request, res: Response) => {
 	try {
 		const allDoctors = await DoctorModel.find().populate("specialties");
-		res.status(200).send(allDoctors);
+		const activeDoctors = allDoctors.filter((doctor: { deleted: boolean }) => !doctor.deleted); // filtrar solo los doctores activos
+		const count = activeDoctors.length; // contar doctores activos
+
+		console.log(count);
+
+		res.status(200).send({ count, data: activeDoctors }); // enviar el conteo y los doctores activos
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
@@ -14,7 +18,7 @@ const getDoctors = async (req: Request, res: Response) => {
 const postDoctors = async (req: Request, res: Response) => {
 	try {
 		const { name, lastname, specialties, phoneNumber, medicalLicense, email, password } = req.body;
-		const newDoctor = new DoctorModel({ name, lastname, specialties, phoneNumber, medicalLicense, email });
+		const newDoctor = new DoctorModel({ name, lastname, specialties, phoneNumber, medicalLicense, email, password });
 		const savedDoctor = await newDoctor.save();
 		res.status(201).json(savedDoctor);
 	} catch (error) {
@@ -35,24 +39,21 @@ const getDoctorsDetail = async (req: Request, res: Response) => {
 const deleteDoctor = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
-		await DoctorModel.findOneAndDelete({ _id });
+		await DoctorModel.findByIdAndUpdate(_id, { deleted: true }); // actualiza el campo deleted a true
 		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
-const assignDoctor = async (req: Request, res: Response) => {
+const putDoctor = async (req: Request, res: Response) => {
 	try {
-		const { _id } = req.params;
-		const { doctors } = req.body;
-		const updated = await SpecialtyModel.findByIdAndUpdate(_id, { $push: { doctors: doctors } });
-		console.log(updated);
-
-		res.send(`${updated?.name}`);
+		const { doctorEmail, image } = req.body;
+		await DoctorModel.findOneAndUpdate({ email: doctorEmail }, { image });
+		res.status(200).json("Successfully updated");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
 };
 
-export { getDoctors, postDoctors, getDoctorsDetail, assignDoctor, deleteDoctor };
+export { getDoctors, postDoctors, getDoctorsDetail, putDoctor, deleteDoctor };

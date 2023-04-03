@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, Model, model } from "mongoose";
+import mongoose, { Schema, Types, model } from "mongoose";
 
 export interface Doctor {
 	name: string;
@@ -11,7 +11,8 @@ export interface Doctor {
 	patients: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string[];
 	services: Types.ObjectId[] | string[];
-	image: string;
+	deleted: boolean; // nuevo campo para el borrado lógico
+	image?: string;
 }
 
 const DoctorSchema = new Schema<Doctor>({
@@ -27,7 +28,6 @@ const DoctorSchema = new Schema<Doctor>({
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "services",
-			required: true,
 		},
 	],
 	specialties: [
@@ -41,7 +41,6 @@ const DoctorSchema = new Schema<Doctor>({
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "patients",
-			required: true,
 		},
 	],
 	medicalLicense: {
@@ -60,7 +59,6 @@ const DoctorSchema = new Schema<Doctor>({
 		{
 			type: Schema.Types.ObjectId,
 			ref: "date",
-			required: true,
 		},
 	],
 	image: {
@@ -68,6 +66,10 @@ const DoctorSchema = new Schema<Doctor>({
 	},
 	password: {
 		type: String,
+	},
+	deleted: {
+		type: Boolean,
+		default: false,
 	},
 });
 
