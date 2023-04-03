@@ -8,9 +8,6 @@ const getPatientList = async (req: Request, res: Response) => {
 
 		const activePatients = allPatients.filter((patient: { deleted: boolean }) => !patient.deleted); // filtrar solo los pacientes activos
 		const count = activePatients.length; // contar los activos
-
-		console.log(count);
-
 		res.status(200).send({ count, data: activePatients }); // enviar el conteo y los pacientes activos
 	} catch (error) {
 		res.status(404).json({ message: error });

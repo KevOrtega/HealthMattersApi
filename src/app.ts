@@ -22,7 +22,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/doctors", routerDoctors);
 app.use("/patients", routerPatients);
 app.use("/specialties", routerSpecialties);
