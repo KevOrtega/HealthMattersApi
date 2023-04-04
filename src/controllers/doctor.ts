@@ -7,9 +7,7 @@ const getDoctors = async (req: Request, res: Response) => {
 		const activeDoctors = allDoctors.filter((doctor: { deleted: boolean }) => !doctor.deleted); // filtrar solo los doctores activos
 		const count = activeDoctors.length; // contar doctores activos
 
-		console.log(count);
-
-		res.status(200).send({ count, data: activeDoctors }); // enviar el conteo y los doctores activos
+		res.status(200).send({count, doctors: activeDoctors }); // enviar el conteo y los doctores activos
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
