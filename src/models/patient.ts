@@ -4,8 +4,8 @@ export interface Patient {
 	name: string;
 	lastname: string;
 	email: string;
-	address: string;
-	phoneNumber: number;
+	address?: string;
+	phoneNumber?: number;
 	date: Types.ObjectId[] | string;
 	doctors: Types.ObjectId | string;
 	services: Types.ObjectId | string;
@@ -24,7 +24,8 @@ const PatientSchema = new Schema<Patient>({
 	},
 	email: {
 		type: String,
-		requerid: true,
+		required: true,
+		unique: true,
 	},
 	address: {
 		type: String,
