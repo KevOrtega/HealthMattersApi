@@ -19,7 +19,7 @@ const registerCtrl = async (req: Request, res: Response) => {
 const loginCtrl = async ({ body }: Request, res: Response) => {
 	try {
 		const { email, password, medicalLicense } = body;
-		const user = await loginUser({ email, password });
+		const user = await loginUser({ email, password, medicalLicense });
 
 		res.send(user);
 	} catch (error) {
