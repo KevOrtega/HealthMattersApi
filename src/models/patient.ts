@@ -24,10 +24,10 @@ const PatientSchema = new Schema<Patient>({
 	},
 	email: {
 		type: String,
+		requerid: true,
 	},
 	address: {
 		type: String,
-		required: true,
 	},
 	password: {
 		type: String,
@@ -35,7 +35,6 @@ const PatientSchema = new Schema<Patient>({
 	},
 	phoneNumber: {
 		type: Number,
-		required: true,
 	},
 	date: [
 		{
@@ -57,7 +56,6 @@ const PatientSchema = new Schema<Patient>({
 	],
 	deleted: {
 		type: Boolean,
-		default: false, // por defecto, el paciente no está eliminado
 	},
 });
 

@@ -4,7 +4,7 @@ import ServiceModel from "../models/services";
 
 const getPatientList = async (req: Request, res: Response) => {
 	try {
-		const allPatients = await PatientModel.find().populate("doctor");
+		const allPatients = await PatientModel.find().populate("doctors");
 
 		const activePatients = allPatients.filter((patient: { deleted: boolean }) => !patient.deleted); // filtrar solo los pacientes activos
 		const count = activePatients.length; // contar los activos
@@ -26,7 +26,6 @@ const postPatient = async (req: Request, res: Response) => {
 };
 
 const getPatient = async (req: Request, res: Response) => {
-	// código para obtener un paciente por su ID
 	try {
 		const { id } = req.params;
 		const patienId = await PatientModel.findOne({ _id: id });
@@ -39,7 +38,7 @@ const getPatient = async (req: Request, res: Response) => {
 const deletePatient = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
-		await PatientModel.findByIdAndUpdate(_id, { deleted: true }); // actualiza el campo deleted a true
+		await PatientModel.findByIdAndUpdate(_id, { deleted: true }); 
 		res.status(200).json("successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
