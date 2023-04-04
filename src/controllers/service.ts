@@ -42,9 +42,9 @@ const getServices = async (req: Request, res: Response) => {
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))
 			: await ServiceModel.find(search_params);
-			if (!services.length) {
-				throw new Error("No services found");
-			}
+		if (!services.length) {
+			throw new Error("No services found");
+		}
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
@@ -61,7 +61,7 @@ const getServices = async (req: Request, res: Response) => {
 
 const postServices = async (req: Request, res: Response) => {
 	try {
-		const { name, description, prices, specialties, doctor} = req.body;
+		const { name, description, prices, specialties, doctor } = req.body;
 		const newService = new ServiceModel({ name, description, prices, rating: 1, doctor });
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
