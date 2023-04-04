@@ -14,6 +14,8 @@ import { config } from "dotenv";
 import { googleLoginController } from "./googleAuth/googleAuth";
 import { logOut } from "./controllers/logout";
 import { checkJwt } from "./middlewares/session";
+import cookieParser from "cookie-parser";
+import { logMiddleware } from "./middlewares/log";
 config();
 
 const PORT = process.env.PORT || 3001;
@@ -22,6 +24,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser());
 app.use("/doctors", routerDoctors);
 app.use("/patients", routerPatients);
 app.use("/specialties", routerSpecialties);

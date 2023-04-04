@@ -41,7 +41,7 @@ const registerNewUser = async ({ name, lastname, specialties, phoneNumber, medic
 		});
 		token = jwt.sign({ email: newUser.email, isDoctor: false }, JWT_SECRET, { expiresIn: "60d" });
 	}
-
+    
 	return { user: newUser, token };
 };
 
