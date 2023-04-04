@@ -7,7 +7,7 @@ export interface Doctor {
 	password: string;
 	specialties: Types.ObjectId[] | string;
 	medicalLicense: string;
-	phoneNumber: number;
+	phoneNumber?: number;
 	patients: Types.ObjectId[] | string[];
 	date: Types.ObjectId[] | string[];
 	services: Types.ObjectId[] | string[];
@@ -49,11 +49,11 @@ const DoctorSchema = new Schema<Doctor>({
 	},
 	phoneNumber: {
 		type: Number,
-		required: true,
 	},
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	date: [
 		{
