@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import mercadopago from "mercadopago";
 import { Request, Response } from "express";
-import nodemailer from "nodemailer"
+import nodemailer from "nodemailer";
 import { User } from "../interface/user.interface";
 config();
 
@@ -23,10 +23,12 @@ async function handleNotifications(req: Request, res: Response) {
 		}
 
 		const transporter = nodemailer.createTransport({
-			service: "gmail",
+			host: "smtp.gmail.com",
+			port: 587,
+			secure: false,
 			auth: {
-				user: "healthmattersapirest@gmail.com",
-				pass: "healthmatters",
+				user: "fabrizioe05@gmail.com",
+				pass: "He@lt123",
 			},
 		});
 
@@ -39,7 +41,7 @@ async function handleNotifications(req: Request, res: Response) {
 			html: "<p>Tu pago ha sido aprobado. Gracias por tu compra.</p>",
 		};
 
-		transporter.sendMail(mailOptions,  (error, info) => {
+		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				console.log(error);
 			} else {
