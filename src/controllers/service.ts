@@ -42,9 +42,9 @@ const getServices = async (req: Request, res: Response) => {
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))
 			: await ServiceModel.find(search_params);
-			if (!services.length) {
-				throw new Error("No services found");
-			}
+		if (!services.length) {
+			throw new Error("No services found");
+		}
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
@@ -85,7 +85,7 @@ const deleteService = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		await ServiceModel.deleteOne({ _id });
-		res.status(200).json("successfully deleted");
+		res.status(200).json("Successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
