@@ -10,9 +10,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "token.01010101";
 
 const registerNewUser = async ({ name, lastname, specialties, phoneNumber, medicalLicense, email, password, address }: User) => {
 	const existingUser = await UserModel.findOne({ email });
-	if (existingUser) {
-		throw new Error("Email already exists");
-	}
+
+	if (existingUser) throw new Error("Email already exists");
 
 	const passHash = await encrypt(password);
 
@@ -37,45 +36,36 @@ const registerNewUser = async ({ name, lastname, specialties, phoneNumber, medic
 			name,
 			address,
 			lastname,
-			phoneNumber
+			phoneNumber,
 		});
 		token = jwt.sign({ email: newUser.email, isDoctor: false }, JWT_SECRET, { expiresIn: "60d" });
 	}
-    
+
 	return { user: newUser, token };
 };
 
 const loginUser = async ({ email, password, medicalLicense }: Auth) => {
 	const checkIsDoctor = await DoctorModel.findOne({ email });
 	const checkIsPatient = await PatientModel.findOne({ email });
-  
-	if (!checkIsDoctor && !checkIsPatient) {
-	  return "Not found user";
-	}
-  
+
+	if (!checkIsDoctor && !checkIsPatient) throw new Error("Not found user");
+
 	const user = checkIsDoctor || checkIsPatient;
-  
-	if (!user || !user.password) {
-	  return "User not found or invalid password";
-	}
-  
+
+	if (!user) throw new Error("User not found");
+
 	const passwordHash = user.password;
 	const isCorrect = await verified(password, passwordHash);
-  
-	if (!isCorrect) {
-	  return "Password incorrect";
-	}
-  
+
+	if (!isCorrect) throw new Error("Password incorrect");
+
 	const isDoctor = !!checkIsDoctor;
 	const token = jwt.sign({ email: user.email, isDoctor: isDoctor || !!medicalLicense }, JWT_SECRET, { expiresIn: "60d" });
-  
+
 	return {
-	  user,
-	  token
+		user,
+		token,
 	};
-  };
-  
-  
-  
+};
 
 export { registerNewUser, loginUser };

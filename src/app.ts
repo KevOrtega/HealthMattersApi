@@ -9,13 +9,12 @@ import routerDates from "./routes/date";
 import routerUsers from "./routes/user";
 import checkoutRouter from "./routes/checkout";
 import { loginCtrl, registerCtrl } from "./controllers/auth";
-import { profileDoctors, profilePatient } from "./controllers/profiles"
+import { profileAdmin, profileDoctors, profilePatient } from "./controllers/profiles";
 import { config } from "dotenv";
 import { googleLoginController } from "./googleAuth/googleAuth";
 import { logOut } from "./controllers/logout";
 import { checkJwt } from "./middlewares/session";
 import cookieParser from "cookie-parser";
-import { logMiddleware } from "./middlewares/log";
 config();
 
 const PORT = process.env.PORT || 3001;
@@ -35,6 +34,7 @@ app.use("/auth/register", registerCtrl);
 app.use("/auth/login", loginCtrl);
 app.use("/profile/doctor", checkJwt, profileDoctors);
 app.use("/profile/patient", checkJwt, profilePatient);
+app.use("/profile/admin", checkJwt, profileAdmin);
 app.use("/auth/google", googleLoginController);
 app.use("/logout", logOut);
 app.use("/users", routerUsers);
