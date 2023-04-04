@@ -3,9 +3,11 @@ import mercadopago from "mercadopago";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer"
 import { User } from "../interface/user.interface";
+const EMAIL_ADDRESS = process.env.EMAIL_ADDRESS
+const EMAIL_PASSWORD =  process.env.EMAIL_PASSWORD
 config();
 
-async function handleNotifications(req: Request, res: Response) {
+const handleNotifications = async (req: Request, res: Response) => {
 	const user = req.user as User;
 	try {
 		const notificationId = req.query.id as string;
@@ -25,18 +27,18 @@ async function handleNotifications(req: Request, res: Response) {
 		const transporter = nodemailer.createTransport({
 			service: "gmail",
 			auth: {
-				user: "healthmattersapirest@gmail.com",
-				pass: "healthmatters",
+				user: EMAIL_ADDRESS,
+				pass: EMAIL_PASSWORD,
 			},
 		});
 
 		const userEmail = user.email;
 
 		const mailOptions = {
-			from: "tucorreo@gmail.com",
+			from: EMAIL_ADDRESS,
 			to: userEmail,
-			subject: "Confirmación de pago",
-			html: "<p>Tu pago ha sido aprobado. Gracias por tu compra.</p>",
+			subject: "Payment confirmation",
+			html: "<p>Your payment has been approved. Thanks for your purchase</p>",
 		};
 
 		transporter.sendMail(mailOptions,  (error, info) => {

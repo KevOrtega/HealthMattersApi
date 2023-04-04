@@ -61,7 +61,7 @@ const getServices = async (req: Request, res: Response) => {
 
 const postServices = async (req: Request, res: Response) => {
 	try {
-		const { name, description, prices, specialties, doctor } = req.body;
+		const { name, description, prices, specialties, doctor} = req.body;
 		const newService = new ServiceModel({ name, description, prices, rating: 1, doctor });
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
@@ -85,7 +85,7 @@ const deleteService = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
 		await ServiceModel.deleteOne({ _id });
-		res.status(200).json("successfully deleted");
+		res.status(200).json("Successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
 	}
