@@ -12,8 +12,8 @@ const getDateList = async (req: Request, res: Response) => {
 
 const postDate = async (req: Request, res: Response) => {
 	try {
-		const { date, time } = req.body;
-		const newDate = new DateModel({ date, time });
+		const { date, time, patients } = req.body;
+		const newDate = new DateModel({ date, time, patients });
 		const savedDate = await newDate.save();
 		res.status(201).json({ date: savedDate });
 	} catch (error) {
