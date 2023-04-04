@@ -2,7 +2,7 @@ import { Schema, model, Types } from "mongoose";
 
 export interface Date {
 	date: string;
-	patients: Types.ObjectId | string;
+	patients: Types.ObjectId[]| string;
 	time: string;
 }
 
