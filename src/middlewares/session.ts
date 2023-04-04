@@ -15,16 +15,14 @@ const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {
 		const medicalLicense = verifyToken(`${jwt}`);
 		if (!isUser) {
 			res.status(400);
-			res.send("Invalid JWT");
+			res.send("Invalid token");
 		} else {
 			req.user = isUser;
 			req.user = medicalLicense;
-			console.log({ jwtByUser });
 			next();
 		}
 	} catch (error) {
-		res.status(400).send("Invalid session");
+		res.status(400).send("Invalid session, please try with an active session");
 	}
 };
-
 export { checkJwt };

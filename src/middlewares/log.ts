@@ -9,3 +9,4 @@ const logMiddleware = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export { logMiddleware };
+

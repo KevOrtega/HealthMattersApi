@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { registerNewUser, loginUser } from "../services/auth";
 
-const registerCtrl = async (req: Request, res: Response): Promise<void> => {
+const registerCtrl = async (req: Request, res: Response) => {
 	try {
 		const body = req.body;
 		const responseUser = await registerNewUser(body);
-		res.status(200).send(responseUser);
+		res.send(responseUser);
 	} catch (error) {
 		if (`${error}` === "Email already exists") {
 			res.status(400).send("Email already exists");
@@ -17,14 +17,13 @@ const registerCtrl = async (req: Request, res: Response): Promise<void> => {
 };
 
 const loginCtrl = async ({ body }: Request, res: Response) => {
-	const { email, password, medicalLicense } = body;
-	const user = await loginUser({ email, password, medicalLicense });
+	try {
+		const { email, password, medicalLicense } = body;
+		const user = await loginUser({ email, password, medicalLicense });
 
-	if (user === "Password incorrect") {
-		res.status(400);
 		res.send(user);
-	} else {
-		res.send(user);
+	} catch (error) {
+		res.status(400).send(`${error}`);
 	}
 };
 

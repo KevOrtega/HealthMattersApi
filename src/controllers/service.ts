@@ -42,6 +42,9 @@ const getServices = async (req: Request, res: Response) => {
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))
 			: await ServiceModel.find(search_params);
+			if (!services.length) {
+				throw new Error("No services found");
+			}
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
@@ -52,7 +55,7 @@ const getServices = async (req: Request, res: Response) => {
 			count: servicesCount,
 		});
 	} catch (error) {
-		res.status(404).send({ message: "Ocurrió un error al obtener los servicios.", error });
+		res.status(404).send({ message: "An error occurred while obtaining the services.", error });
 	}
 };
 

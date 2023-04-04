@@ -8,7 +8,6 @@ const redirectURI = "http://localhost:3001";
 const oauth2Client = new google.auth.OAuth2(clientID, clientSecret, redirectURI);
 
 export const logOut = (req: Request, res: Response) => {
-	// Revoke the access token
 	oauth2Client.revokeCredentials((err) => {
 		if (err) {
 			console.error("Error revoking access token:", err);
