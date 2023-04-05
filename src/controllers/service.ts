@@ -36,13 +36,12 @@ const getServices = async (req: Request, res: Response) => {
 						name: new RegExp(`${search}.*`, "i"),
 				  }
 				: {},
-			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {},
-			{ deleted: false } // Agregar filtro para obtener solo los servicios no borrados
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
+			// { deleted: false } // Agregar filtro para obtener solo los servicios no borrados
 		);
 
-		const services = order
-			? orders_methods[order](await ServiceModel.find(search_params))
-			: await ServiceModel.find(search_params);
+		let services = order ? orders_methods[order](await ServiceModel.find(search_params)) : await ServiceModel.find(search_params);
+		services = services.filter((service: { deleted: boolean }) => !service.deleted);
 		if (!services.length) {
 			throw new Error("No services found");
 		}
