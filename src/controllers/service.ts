@@ -36,15 +36,16 @@ const getServices = async (req: Request, res: Response) => {
 						name: new RegExp(`${search}.*`, "i"),
 				  }
 				: {},
-			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {},
+			{ deleted: false } // Agregar filtro para obtener solo los servicios no borrados
 		);
 
 		const services = order
 			? orders_methods[order](await ServiceModel.find(search_params))
 			: await ServiceModel.find(search_params);
-			if (!services.length) {
-				throw new Error("No services found");
-			}
+		if (!services.length) {
+			throw new Error("No services found");
+		}
 		const servicesCount = services.length;
 		const servicesToSkip = servicesPerPage * (pageNumber - 1);
 
@@ -61,7 +62,7 @@ const getServices = async (req: Request, res: Response) => {
 
 const postServices = async (req: Request, res: Response) => {
 	try {
-		const { name, description, prices, specialties, doctor} = req.body;
+		const { name, description, prices, specialties, doctor } = req.body;
 		const newService = new ServiceModel({ name, description, prices, rating: 1, doctor });
 		const saveService = await newService.save();
 		await saveService.updateOne({ $push: { specialties } });
@@ -80,11 +81,10 @@ const detailServices = async (req: Request, res: Response) => {
 		res.status(404).json({ message: error });
 	}
 };
-
 const deleteService = async (req: Request, res: Response) => {
 	try {
 		const { _id } = req.params;
-		await ServiceModel.deleteOne({ _id });
+		await ServiceModel.findByIdAndUpdate(_id, { deleted: true });
 		res.status(200).json("Successfully deleted");
 	} catch (error) {
 		res.status(404).send({ message: error });
@@ -101,4 +101,4 @@ const assignService = async (req: Request, res: Response) => {
 		res.status(404).send({ message: error });
 	}
 };
-export { getServices, postServices, assignService, detailServices };
+export { getServices, postServices, assignService, detailServices, deleteService };

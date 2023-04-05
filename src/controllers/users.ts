@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 import PatientModel from "../models/patient";
 import DoctorModel from "../models/doctor";
 
-const getUsers = async (req: Request, res: Response) => {
+const getUsers = async (req: Request, res: Response, next: NextFunction) => {
 	try {
 		const allUsers = [...(await DoctorModel.find()), ...(await PatientModel.find())];
 		res.status(200).send(allUsers);
 	} catch (error) {
-		res.status(404).send({ message: error });
+		res.status(404).send({ mensaje: error });
 	}
 };
 
@@ -28,7 +28,7 @@ const deleteUsers = async (req: Request, res: Response) => {
 			res.status(404).send({ message: "User not found" });
 		}
 	} catch (error) {
-		res.status(500).send({ message: error });
+		res.status(404).send({ message: "User not found" });
 	}
 };
 

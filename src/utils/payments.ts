@@ -1,10 +1,10 @@
 import { config } from "dotenv";
 import mercadopago from "mercadopago";
 import { Request, Response } from "express";
-import nodemailer from "nodemailer"
-// import { User } from "../interface/user.interface";
-const EMAIL_ADDRESS = process.env.EMAIL_ADDRESS
-const EMAIL_PASSWORD =  process.env.EMAIL_PASSWORD
+import nodemailer from "nodemailer";
+import { User } from "../interface/user.interface";
+const EMAIL_ADDRESS = process.env.EMAIL_ADDRESS;
+const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 config();
 
 const handleNotifications = async (req: Request, res: Response) => {
@@ -25,7 +25,9 @@ const handleNotifications = async (req: Request, res: Response) => {
 		}
 
 		const transporter = nodemailer.createTransport({
-			service: "gmail",
+			host: "smtp.gmail.com",
+			port: 587,
+			secure: false,
 			auth: {
 				user: EMAIL_ADDRESS,
 				pass: EMAIL_PASSWORD,
@@ -41,7 +43,7 @@ const handleNotifications = async (req: Request, res: Response) => {
 			html: "<p>Your payment has been approved. Thanks for your purchase</p>",
 		};
 
-		transporter.sendMail(mailOptions,  (error, info) => {
+		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
 				console.log(error);
 			} else {
@@ -53,7 +55,7 @@ const handleNotifications = async (req: Request, res: Response) => {
 		console.error(error);
 		return res.sendStatus(500);
 	}
-}
+};
 
 mercadopago.configure({
 	access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN || "",

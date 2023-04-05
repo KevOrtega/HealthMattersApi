@@ -18,6 +18,10 @@ const UserSchema = new Schema<User>({
 	medicalLicense: {
 		type: String,
 	},
+	deleted: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const UserModel = model("users", UserSchema);
