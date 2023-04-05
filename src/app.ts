@@ -42,5 +42,5 @@ app.use("/auth/google", googleLoginController);
 app.use("/logout", logOut);
 app.use("/users", routerUsers);
 
-db().then(() => console.log("Conexion DB exitosa"));
+db().then(() => console.log("Successful database connection!"));
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
