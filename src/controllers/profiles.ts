@@ -36,7 +36,9 @@ export const profileDoctors = async (req: Request, res: Response) => {
 		if (!token) throw new Error("token is required");
 		jwt.verify(token, process.env.JWT_SECRET || "", async function (err: any, user: any) {
 			if (err) throw new Error(err);
-			return res.send(await DoctorModel.findOne({ email: user.email }));
+			const doctor = await DoctorModel.findOne({ email: user.email });
+			if (!doctor) throw new Error("doctor not found");
+			return res.send();
 		});
 	} catch (error) {
 		res.status(300).send(`${error}`);
@@ -58,7 +60,9 @@ export const profilePatient = async (req: Request, res: Response) => {
 		if (!token) throw new Error("token is required");
 		jwt.verify(token, process.env.JWT_SECRET || "", async function (err: any, user: any) {
 			if (err) throw new Error(err);
-			return res.send(await PatientModel.findOne({ email: user.email }));
+			const patient = await PatientModel.findOne({ email: user.email });
+			if (!patient) throw new Error("patient not found");
+			return res.send();
 		});
 	} catch (error) {
 		res.status(300).send(`${error}`);
