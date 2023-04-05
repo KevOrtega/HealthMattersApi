@@ -11,6 +11,17 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
 	}
 };
 
+const putUsers = async (req: Request, res: Response) => {
+	try {
+		await DoctorModel.findByIdAndUpdate(req.params.id, { deleted: false }).catch((_err) =>
+			PatientModel.findById(req.params.id, { deleted: false })
+		);
+		res.send("updated");
+	} catch (error) {
+		res.status(300).send(`${error}`);
+	}
+};
+
 const deleteUsers = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
@@ -32,4 +43,4 @@ const deleteUsers = async (req: Request, res: Response) => {
 	}
 };
 
-export { getUsers, deleteUsers };
+export { getUsers, deleteUsers, putUsers };
