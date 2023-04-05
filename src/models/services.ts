@@ -12,6 +12,7 @@ export interface Services {
 	doctor: Types.ObjectId[] | string;
 	rating: number;
 	image: string;
+	deleted: boolean;
 }
 
 const ServiceSchema = new Schema<Services>({
@@ -57,6 +58,10 @@ const ServiceSchema = new Schema<Services>({
 	rating: {
 		type: Number,
 		required: true,
+	},
+	deleted: {
+		type: Boolean,
+		default: false,
 	},
 });
 
