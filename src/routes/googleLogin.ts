@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { googleLoginController } from "../controllers/loginGoogle";
-
+import { googleLoginController } from "../googleAuth/googleAuth";
 const router = Router();
 
 router.get("/", googleLoginController);

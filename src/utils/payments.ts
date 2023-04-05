@@ -19,15 +19,10 @@ const handleNotifications = async (req: Request, res: Response) => {
 		const notification = await mercadopago.payment.get(parseFloat(notificationId));
 
 		if (notification && notification.body && notification.body.status === "approved") {
-			// Aquí puedes realizar cualquier acción necesaria para procesar el pago aprobado,
-			// como actualizar el estado del pedido, enviar un correo electrónico de confirmación, etc.
 			console.log("Payment approved:", notification.body);
 		}
 
 		const transporter = nodemailer.createTransport({
-			host: "smtp.gmail.com",
-			port: 587,
-			secure: false,
 			auth: {
 				user: EMAIL_ADDRESS,
 				pass: EMAIL_PASSWORD,

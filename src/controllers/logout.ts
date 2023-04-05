@@ -14,7 +14,7 @@ export const logOut = (req: Request, res: Response) => {
 			res.status(500).send("Error revoking access token");
 		} else {
 			console.log("Access token revoked");
-			res.send("Sesión cerrada");
+			res.send("Closed session");
 		}
 	});
 };
