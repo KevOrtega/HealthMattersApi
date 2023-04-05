@@ -90,14 +90,14 @@ const deleteService = async (req: Request, res: Response) => {
 	}
 };
 
-const assignService = async (req: Request, res: Response) => {
-	try {
-		const { _id } = req.params;
-		const { patients } = req.body;
-		const updated = await PatientModel.findByIdAndUpdate(_id, { $push: { patients: patients } });
-		res.status(200).send(`${updated?.name}`);
-	} catch (error) {
-		res.status(404).send({ message: error });
-	}
-};
-export { getServices, postServices, assignService, detailServices, deleteService };
+// const assignService = async (req: Request, res: Response) => {
+// 	try {
+// 		const { _id } = req.params;
+// 		const { rating } = req.body;
+// 		const updated = await ServiceModel.updateOne({ _id}, { rating: 2 })
+// 		res.status(200).send(updated);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
+export { getServices, postServices, detailServices, deleteService };
