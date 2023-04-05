@@ -2,13 +2,13 @@ import { config } from "dotenv";
 import mercadopago from "mercadopago";
 import { Request, Response } from "express";
 import nodemailer from "nodemailer"
-import { User } from "../interface/user.interface";
+// import { User } from "../interface/user.interface";
 const EMAIL_ADDRESS = process.env.EMAIL_ADDRESS
 const EMAIL_PASSWORD =  process.env.EMAIL_PASSWORD
 config();
 
 const handleNotifications = async (req: Request, res: Response) => {
-	const user = req.user as User;
+	// const user = req.user as User;
 	try {
 		const notificationId = req.query.id as string;
 
@@ -32,11 +32,11 @@ const handleNotifications = async (req: Request, res: Response) => {
 			},
 		});
 
-		const userEmail = user.email;
+		// const userEmail = user.email;
 
 		const mailOptions = {
 			from: EMAIL_ADDRESS,
-			to: userEmail,
+			// to: userEmail,
 			subject: "Payment confirmation",
 			html: "<p>Your payment has been approved. Thanks for your purchase</p>",
 		};
