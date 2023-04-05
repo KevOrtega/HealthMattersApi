@@ -36,13 +36,12 @@ const getServices = async (req: Request, res: Response) => {
 						name: new RegExp(`${search}.*`, "i"),
 				  }
 				: {},
-			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {},
-			{ deleted: false } // Agregar filtro para obtener solo los servicios no borrados
+			specialtiesArray ? { specialties: { $in: specialtiesArray } } : {}
+			// { deleted: false } // Agregar filtro para obtener solo los servicios no borrados
 		);
 
-		const services = order
-			? orders_methods[order](await ServiceModel.find(search_params))
-			: await ServiceModel.find(search_params);
+		let services = order ? orders_methods[order](await ServiceModel.find(search_params)) : await ServiceModel.find(search_params);
+		services = services.filter((service: { deleted: boolean }) => !service.deleted);
 		if (!services.length) {
 			throw new Error("No services found");
 		}
@@ -91,14 +90,14 @@ const deleteService = async (req: Request, res: Response) => {
 	}
 };
 
-const assignService = async (req: Request, res: Response) => {
-	try {
-		const { _id } = req.params;
-		const { patients } = req.body;
-		const updated = await PatientModel.findByIdAndUpdate(_id, { $push: { patients: patients } });
-		res.status(200).send(`${updated?.name}`);
-	} catch (error) {
-		res.status(404).send({ message: error });
-	}
-};
-export { getServices, postServices, assignService, detailServices, deleteService };
+// const assignService = async (req: Request, res: Response) => {
+// 	try {
+// 		const { _id } = req.params;
+// 		const { rating } = req.body;
+// 		const updated = await ServiceModel.updateOne({ _id}, { rating: 2 })
+// 		res.status(200).send(updated);
+// 	} catch (error) {
+// 		res.status(404).send({ message: error });
+// 	}
+// };
+export { getServices, postServices, detailServices, deleteService };
