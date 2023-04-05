@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import PatientModel from "../models/patient";
 import DoctorModel from "../models/doctor";
 
