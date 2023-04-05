@@ -10,4 +10,5 @@ export interface User extends Auth {
 	password: string;
 	isDoctor?: boolean;
 	address: string;
+	deleted: boolean;
 }
