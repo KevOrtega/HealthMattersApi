@@ -19,10 +19,10 @@ const deleteUsers = async (req: Request, res: Response) => {
 		const patientUser = await PatientModel.findById(id);
 
 		if (doctorUser) {
-			await DoctorModel.findByIdAndDelete(id);
+			await DoctorModel.findByIdAndUpdate(id, { deleted: true });
 			res.status(200).send({ message: "Doctor deleted successfully" });
 		} else if (patientUser) {
-			await PatientModel.findByIdAndDelete(id);
+			await PatientModel.findByIdAndUpdate(id, { deleted: true });
 			res.status(200).send({ message: "Patient deleted successfully" });
 		} else {
 			res.status(404).send({ message: "User not found" });
