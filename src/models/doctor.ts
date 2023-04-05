@@ -61,9 +61,6 @@ const DoctorSchema = new Schema<Doctor>({
 			ref: "date",
 		},
 	],
-	image: {
-		type: String,
-	},
 	password: {
 		type: String,
 	},
